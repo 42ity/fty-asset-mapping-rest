@@ -1,0 +1,36 @@
+<!-- Communication collection -->
+    <!-- Create a communication item -->
+    <mapping>
+      <target>rest_communications_POST@libfty_security_wallet_rest</target>
+      <url>^/api/v1/admin/communication-data/communications$</url>
+      <method>POST</method>
+    </mapping>
+
+    <!-- Read communication item collection-->
+    <mapping>
+      <target>rest_communications_GET@libfty_security_wallet_rest</target>
+      <url>^/api/v1/admin/communication-data/communications($|\?.+$)</url>
+      <method>GET</method>
+    </mapping>
+
+ <!-- Single communication item -->
+    <!-- Read communication item -->
+    <mapping>
+      <target>rest_communication_GET@libfty_security_wallet_rest</target>
+      <url>^/api/v1/admin/communication-data/communications/([a-zA-Z0-9_-\+]+)$</url>
+      <method>GET</method>
+    </mapping>
+
+    <!-- Update communication item -->
+    <mapping>
+      <target>rest_communication_PUT@libfty_security_wallet_rest</target>
+      <url>^/api/v1/admin/communication-data/communications/([a-zA-Z0-9_-\+]+)$</url>
+      <method>PUT</method>
+    </mapping>
+
+    <!-- Delete communication item -->
+    <mapping>
+      <target>rest_communication_DELETE@libfty_security_wallet_rest</target>
+      <url>^/api/v1/admin/communication-data/communications/([a-zA-Z0-9_-\+]+)$</url>
+      <method>DELETE</method>
+    </mapping>

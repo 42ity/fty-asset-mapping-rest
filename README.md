@@ -1,2 +1,1 @@
-# fty-security-wallet-rest
-RestAPI for security wallet
+# fty-asset-mapping-rest

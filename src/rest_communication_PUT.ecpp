@@ -1,0 +1,92 @@
+<#
+ #
+ # Copyright (C) 2019 Eaton
+ #
+ # This program is free software; you can redistribute it and/or modify
+ # it under the terms of the GNU General Public License as published by
+ # the Free Software Foundation; either version 2 of the License, or
+ # (at your option) any later version.
+ #
+ # This program is distributed in the hope that it will be useful,
+ # but WITHOUT ANY WARRANTY; without even the implied warranty of
+ # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ # GNU General Public License for more details.
+ #
+ # You should have received a copy of the GNU General Public License along
+ # with this program; if not, write to the Free Software Foundation, Inc.,
+ # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ #
+ #><#
+/*!
+ * \file rest_documents_POST.ecpp
+ * \author Clement Perrette <ClementPerrette@eaton.com>
+ * \brief Implementation of rest handler for security wallet
+ *        UPDATE a document
+ */
+ #><%pre>
+#include <algorithm>
+#include <string>
+#include <fstream>
+
+#include <sys/types.h>
+#include <dirent.h>
+#include <unistd.h>
+
+#include "helpers.h"
+
+#include "cam_accessor.h"
+#include "cam_exception.h"
+#include "fty_common_rest.h"
+
+</%pre>
+<%request scope="global">
+UserInfo user;
+</%request>
+<%cpp>
+
+  using namespace cam;
+  using namespace restapi;
+
+  //check if we can execute
+  static const std::map <BiosProfile, std::string> PERMISSIONS = {
+          {BiosProfile::Admin, "U"}
+  };
+
+  CHECK_USER_PERMISSIONS_OR_DIE(PERMISSIONS);
+
+  Path path(request.getPathInfo());
+
+  try
+  {
+    Accessor accessor( CLIENT_ID, 1000, END_POINT);
+
+    //extract data from the path: <URL_PREFIX>/communications/<id_item>
+    const std::string & idItem = path.getItem(URL_PREFIX_SIZE + 2);
+
+    //extract the data
+    CredentialAssetMapping mapping;
+    request.getBody() >>= mapping;
+
+    if(idItem != createId(mapping))
+    {
+      throw std::runtime_error("Mismatch id");
+    }
+
+    //try to save it
+    accessor.updateMapping(mapping);
+
+    cxxtools::SerializationInfo si;
+    reply.out() << si;
+  }
+  catch(const CamMappingDoesNotExistsException& /*e*/)
+  {
+    std::string msg = TRANSLATE_ME ("Communication item does not exist");
+    http_die ("bad-request-document", msg.c_str ());
+  }
+  catch(const std::exception& e)
+  {
+    std::string msg = TRANSLATE_ME ("Error while updating a communication item: %s", e.what ());
+    http_die ("internal-error", msg.c_str ());
+  }
+
+</%cpp>

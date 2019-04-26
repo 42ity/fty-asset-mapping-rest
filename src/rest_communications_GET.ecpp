@@ -1,0 +1,129 @@
+<#
+ #
+ # Copyright (C) 2019 Eaton
+ #
+ # This program is free software; you can redistribute it and/or modify
+ # it under the terms of the GNU General Public License as published by
+ # the Free Software Foundation; either version 2 of the License, or
+ # (at your option) any later version.
+ #
+ # This program is distributed in the hope that it will be useful,
+ # but WITHOUT ANY WARRANTY; without even the implied warranty of
+ # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ # GNU General Public License for more details.
+ #
+ # You should have received a copy of the GNU General Public License along
+ # with this program; if not, write to the Free Software Foundation, Inc.,
+ # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ #
+ #><#
+/*!
+ * \file rest_documents_POST.ecpp
+ * \author Clement Perrette <ClementPerrette@eaton.com>
+ * \brief Implementation of rest handler for asset mapping
+ *        GET a communication
+ */
+ #><%pre>
+#include <algorithm>
+#include <string>
+#include <fstream>
+
+#include <sys/types.h>
+#include <dirent.h>
+#include <unistd.h>
+
+#include <cxxtools/jsondeserializer.h>
+
+#include "helpers.h"
+
+#include "cam_accessor.h"
+#include "cam_exception.h"
+#include "fty_common_rest.h"
+
+</%pre>
+<%request scope="global">
+UserInfo user;
+</%request>
+<%cpp>
+
+  using namespace cam;
+  using namespace restapi;
+
+  //check if we can execute
+  static const std::map <BiosProfile, std::string> PERMISSIONS = {
+          {BiosProfile::Admin, "R"}
+  };
+
+  CHECK_USER_PERMISSIONS_OR_DIE(PERMISSIONS);
+
+  Path path(request.getPathInfo());
+
+  const std::string & asset = qparam.param ("asset");
+  const std::string & service = qparam.param ("service");
+  const std::string & credential = qparam.param ("credential");
+  const std::string & protocol = qparam.param ("protocol");
+  const std::string & port = qparam.param ("port");
+
+  try
+  {
+    //get the data
+    Accessor accessor( CLIENT_ID, 1000, END_POINT);
+    const std::vector<CredentialAssetMapping> mappings = accessor.getAllMappings();
+
+    cxxtools::SerializationInfo rootSi;
+
+    //filter the data
+    for(const CredentialAssetMapping & mapping : mappings)
+    {
+      //skip the mapping if the filter on asset is not satisfy
+      if((!asset.empty()) && (mapping.m_assetId != asset))
+      {
+        continue;
+      }
+
+      //skip the mapping if the filter on service is not satisfy
+      if((!service.empty()) && (mapping.m_serviceId != service))
+      {
+        continue;
+      }
+
+      //skip the mapping if the filter on credential is not satisfy
+      if((!credential.empty()) && (mapping.m_credentialId != credential))
+      {
+        continue;
+      }
+
+      //skip the mapping if the filter on protocol is not satisfy
+      if((!protocol.empty()) && (mapping.m_protocol != protocol))
+      {
+        continue;
+      }
+
+      //skip the mapping if the filter on port is not satisfy
+      if((!port.empty()) && (mapping.m_port != port))
+      {
+        continue;
+      }
+
+      //add the id
+      cxxtools::SerializationInfo si;
+      si <<= mapping;
+      si.addMember("id") <<= createId(mapping);
+
+      //add in the list
+      rootSi.addMember() <<= si;
+    }
+
+    rootSi.setCategory(cxxtools::SerializationInfo::Array);
+
+    // Send reply.
+    reply.setContentType("application/json;charset=UTF-8");
+    reply.out() << rootSi;
+  }
+  catch(const std::exception& e)
+  {
+    std::string msg = TRANSLATE_ME ("Error while getting list of communication: %s", JSONIFY(e.what ()).c_str ());
+    http_die ("internal-error", msg.c_str ());
+  }
+
+</%cpp>
