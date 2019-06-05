@@ -29,7 +29,7 @@ namespace restapi
     static constexpr char END_POINT[] = "ipc://@/malamute";
     static constexpr char CLIENT_ID[] = "fty-asset-mapping-rest";
 
-    std::string createId(const CredentialAssetMapping & mapping);
+    std::string createId(const cam::CredentialAssetMapping & mapping);
     std::vector<std::string> splitString(const std::string & str, char separator);
 
     //URL_PREFIX = /api/v1/admin//communication-data/

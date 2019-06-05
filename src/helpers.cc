@@ -43,7 +43,7 @@ namespace restapi
         return m_items.size();
     }
 
-    std::string createId(const CredentialAssetMapping & mapping)
+    std::string createId(const cam::CredentialAssetMapping & mapping)
     {
         return mapping.m_assetId+"+"+mapping.m_serviceId+"+"+mapping.m_protocol;
     }
