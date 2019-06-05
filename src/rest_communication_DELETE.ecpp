@@ -73,7 +73,7 @@ UserInfo user;
     cxxtools::SerializationInfo si;
     reply.out() << si;
   }
-  catch(const CamMappingDoesNotExistsException& /*e*/)
+  catch(const CamMappingDoesNotExistException& /*e*/)
   {
     std::string msg = TRANSLATE_ME ("Communication item does not exist");
     http_die ("bad-request-document", msg.c_str ());
