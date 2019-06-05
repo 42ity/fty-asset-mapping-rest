@@ -111,7 +111,7 @@ UserInfo user;
       si.addMember("id") <<= createId(mapping);
 
       //add in the list
-      rootSi.addMember() <<= si;
+      rootSi.addMember("") <<= si;
     }
 
     rootSi.setCategory(cxxtools::SerializationInfo::Array);
