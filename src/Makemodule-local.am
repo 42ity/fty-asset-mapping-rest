@@ -6,11 +6,11 @@ ECPPFLAGS = --nolog
 ECPPFLAGS_CPP = -I$(top_builddir)/include -I$(top_srcdir)/include
 
 ECPPFILES= \
-	rest_document_DELETE.ecpp \
-	rest_document_GET.ecpp \
-	rest_document_PUT.ecpp \
-	rest_documents_GET.ecpp \
-	rest_documents_POST.ecpp
+	rest_communication_DELETE.ecpp \
+	rest_communication_GET.ecpp \
+	rest_communication_PUT.ecpp \
+	rest_communications_GET.ecpp \
+	rest_communications_POST.ecpp
 
 TNTLIB_BASENAME=libfty_asset_mapping_rest
 TNTLIB_DIRNAME=$(prefix)/lib/bios
