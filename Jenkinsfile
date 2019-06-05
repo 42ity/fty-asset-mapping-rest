@@ -1,5 +1,5 @@
 /*
-    fty-asset-mapping-rest - Asset Mapping REST API
+    fty-asset-mapping-rest - Asset mapping REST API
 
     Copyright (C) 2018 - 2019 Eaton
 
