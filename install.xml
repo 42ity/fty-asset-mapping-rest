@@ -11,5 +11,5 @@ Installation model
 
 <install>
     <item type = "systemd-tmpfiles" />
-    <item path = "/etc/tntnet/bios.d" name = "41_secw-rest.xml" package = "lib" />
+    <item path = "/etc/tntnet/bios.d" name = "41_asset-mapping-rest.xml" package = "lib" />
 </install>

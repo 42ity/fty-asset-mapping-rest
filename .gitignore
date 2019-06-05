@@ -23,17 +23,17 @@ save.xml
 *.lo
 
 # Executables
-src/fty-security-wallet-rest_selftest
-src/fty_security_wallet_rest_selftest
+src/fty-asset-mapping-rest_selftest
+src/fty_asset_mapping_rest_selftest
 *.exe
 *.out
 *.app
 core
 
 # Distcheck workspace and archives
-fty-security-wallet-rest-*/
-fty-security-wallet-rest-*.tar.gz
-fty-security-wallet-rest-*.zip
+fty-asset-mapping-rest-*/
+fty-asset-mapping-rest-*.tar.gz
+fty-asset-mapping-rest-*.zip
 
 # Man pages
 doc/*.1
