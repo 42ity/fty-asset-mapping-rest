@@ -12,7 +12,7 @@ ECPPFILES= \
 	rest_documents_GET.ecpp \
 	rest_documents_POST.ecpp
 
-TNTLIB_BASENAME=libfty_security_wallet_rest
+TNTLIB_BASENAME=libfty_asset_mapping_rest
 TNTLIB_DIRNAME=$(prefix)/lib/bios
 
 ECPPCCFILES = $(ECPPFILES:.ecpp=.cc)

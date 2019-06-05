@@ -19,7 +19,7 @@
     =========================================================================
 */
 
-#include "fty_security_wallet_rest_classes.h"
+#include "fty_asset_mapping_rest_classes.h"
 
 namespace restapi
 {
