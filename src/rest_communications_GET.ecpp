@@ -33,6 +33,7 @@
 #include <unistd.h>
 
 #include <cxxtools/jsondeserializer.h>
+#include <cxxtools/jsonserializer.h>
 
 #include "helpers.h"
 

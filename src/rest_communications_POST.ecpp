@@ -37,6 +37,8 @@
 #include "cam_accessor.h"
 #include "cam_exception.h"
 
+#include <cxxtools/jsonserializer.h>
+
 #include "fty_common_rest.h"
 
 </%pre>
