@@ -106,12 +106,14 @@ UserInfo user;
         continue;
       }
 
-      //add to the list
-      cxxtools::SerializationInfo si = rootSi.addMember("");
+      cxxtools::SerializationInfo si;
+      si <<= mapping;
 
       //add the id
-      si <<= mapping;
       si.addMember("id") <<= createId(mapping);
+
+      //add in the list
+      rootSi.addMember("") <<= si;
     }
 
     rootSi.setCategory(cxxtools::SerializationInfo::Array);
