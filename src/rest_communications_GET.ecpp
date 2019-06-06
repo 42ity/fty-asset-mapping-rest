@@ -33,6 +33,7 @@
 #include <unistd.h>
 
 #include <cxxtools/jsondeserializer.h>
+#include <cxxtools/jsonserializer.h>
 
 #include "helpers.h"
 
@@ -105,20 +106,21 @@ UserInfo user;
         continue;
       }
 
+      //add to the list
+      cxxtools::SerializationInfo si = rootSi.addMember("");
+
       //add the id
-      cxxtools::SerializationInfo si;
       si <<= mapping;
       si.addMember("id") <<= createId(mapping);
-
-      //add in the list
-      rootSi.addMember("") <<= si;
     }
 
     rootSi.setCategory(cxxtools::SerializationInfo::Array);
 
     // Send reply.
     reply.setContentType("application/json;charset=UTF-8");
-    reply.out() << rootSi;
+
+    cxxtools::JsonSerializer serializer(reply.out());
+    serializer.serialize(rootSi);
   }
   catch(const std::exception& e)
   {

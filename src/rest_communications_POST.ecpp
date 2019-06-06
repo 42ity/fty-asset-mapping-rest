@@ -37,6 +37,8 @@
 #include "cam_accessor.h"
 #include "cam_exception.h"
 
+#include <cxxtools/jsonserializer.h>
+
 #include "fty_common_rest.h"
 
 </%pre>
@@ -77,7 +79,9 @@ UserInfo user;
 
     cxxtools::SerializationInfo si;
     si.addMember("id") <<= newId;
-    reply.out() << si;
+
+    cxxtools::JsonSerializer serializer(reply.out());
+    serializer.serialize(si);
 
   }
   catch(const CamMappingAlreadyExistsException& /*e*/)

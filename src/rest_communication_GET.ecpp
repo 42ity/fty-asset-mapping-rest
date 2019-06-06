@@ -38,6 +38,8 @@
 #include "cam_exception.h"
 #include "fty_common_rest.h"
 
+#include <cxxtools/jsonserializer.h>
+
 </%pre>
 <%request scope="global">
 UserInfo user;
@@ -61,7 +63,7 @@ UserInfo user;
     Accessor accessor( CLIENT_ID, 1000, END_POINT);
 
     //extract data from the path: <URL_PREFIX>/communications/<id_item>
-    const std::string & idItem = path.getItem(URL_PREFIX_SIZE + 2);
+    const std::string & idItem = path.getItem(URL_PREFIX_SIZE + 1);
 
     //extract the id
     std::vector<std::string> idArray = splitString(idItem, '+');
@@ -72,7 +74,9 @@ UserInfo user;
     cxxtools::SerializationInfo si;
     si <<= mapping;
     si.addMember("id") <<= createId(mapping);
-    reply.out() << si;
+
+    cxxtools::JsonSerializer serializer(reply.out());
+    serializer.serialize(si);
     
   }
   catch(const CamMappingDoesNotExistException& /*e*/)
