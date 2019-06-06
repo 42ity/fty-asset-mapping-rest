@@ -77,7 +77,9 @@ UserInfo user;
 
     cxxtools::SerializationInfo si;
     si.addMember("id") <<= newId;
-    reply.out() << si;
+
+    cxxtools::JsonSerializer serializer(reply.out());
+    serializer.serialize(si);
 
   }
   catch(const CamMappingAlreadyExistsException& /*e*/)

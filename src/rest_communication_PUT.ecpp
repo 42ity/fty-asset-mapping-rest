@@ -61,7 +61,7 @@ UserInfo user;
     Accessor accessor( CLIENT_ID, 1000, END_POINT);
 
     //extract data from the path: <URL_PREFIX>/communications/<id_item>
-    const std::string & idItem = path.getItem(URL_PREFIX_SIZE + 2);
+    const std::string & idItem = path.getItem(URL_PREFIX_SIZE + 1);
 
     //extract the data
     CredentialAssetMapping mapping;
@@ -75,8 +75,7 @@ UserInfo user;
     //try to save it
     accessor.updateMapping(mapping);
 
-    cxxtools::SerializationInfo si;
-    reply.out() << si;
+    reply.out() << "{}";
   }
   catch(const CamMappingDoesNotExistException& /*e*/)
   {

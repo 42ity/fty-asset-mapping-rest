@@ -17,20 +17,20 @@
     <!-- Read communication item -->
     <mapping>
       <target>rest_communication_GET@libfty_asset_mapping_rest</target>
-      <url>^/api/v1/admin/communication-data/communications/([a-zA-Z0-9_\-\+]+)$</url>
+      <url>^/api/v1/admin/communication-data/communications/([a-zA-Z0-9_+-]+)$</url>
       <method>GET</method>
     </mapping>
 
     <!-- Update communication item -->
     <mapping>
       <target>rest_communication_PUT@libfty_asset_mapping_rest</target>
-      <url>^/api/v1/admin/communication-data/communications/([a-zA-Z0-9_\-\+]+)$</url>
+      <url>^/api/v1/admin/communication-data/communications/([a-zA-Z0-9_+-]+)$</url>
       <method>PUT</method>
     </mapping>
 
     <!-- Delete communication item -->
     <mapping>
       <target>rest_communication_DELETE@libfty_asset_mapping_rest</target>
-      <url>^/api/v1/admin/communication-data/communications/([a-zA-Z0-9_\-\+]+)$</url>
+      <url>^/api/v1/admin/communication-data/communications/([a-zA-Z0-9_+-]+)$</url>
       <method>DELETE</method>
     </mapping>

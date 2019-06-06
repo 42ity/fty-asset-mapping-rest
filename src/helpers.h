@@ -32,7 +32,7 @@ namespace restapi
     std::string createId(const cam::CredentialAssetMapping & mapping);
     std::vector<std::string> splitString(const std::string & str, char separator);
 
-    //URL_PREFIX = /api/v1/admin//communication-data/
+    //URL_PREFIX = /api/v1/admin/communication-data/
     static constexpr size_t URL_PREFIX_SIZE = 4;
 
     class Path
