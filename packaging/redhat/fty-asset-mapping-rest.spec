@@ -1,6 +1,9 @@
 #
 #    fty-asset-mapping-rest - Asset mapping REST API
 #
+#   NOTE: This file was customized after generation,
+#   take care to keep this during updates.
+#
 #    Copyright (C) 2018 - 2019 Eaton
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -82,9 +85,11 @@ This package contains shared library for fty-asset-mapping-rest: asset mapping r
 %post -n libfty_asset_mapping_rest1 -p /sbin/ldconfig
 %postun -n libfty_asset_mapping_rest1 -p /sbin/ldconfig
 
+# Note: the .so file is delivered as part of main package for tntnet to find it
 %files -n libfty_asset_mapping_rest1
 %defattr(-,root,root)
 %{_libdir}/libfty_asset_mapping_rest.so.*
+%{_libdir}/libfty_asset_mapping_rest.so
 
 %package devel
 Summary:        asset mapping rest api
@@ -111,10 +116,11 @@ Requires:       fty-security-wallet-devel
 asset mapping rest api development tools
 This package contains development files for fty-asset-mapping-rest: asset mapping rest api
 
+# Note: the .so file is delivered as part of main package for tntnet to find it
 %files devel
 %defattr(-,root,root)
 %{_includedir}/*
-%{_libdir}/libfty_asset_mapping_rest.so
+###%{_libdir}/libfty_asset_mapping_rest.so
 %{_libdir}/pkgconfig/libfty_asset_mapping_rest.pc
 %{_mandir}/man3/*
 %{_mandir}/man7/*
