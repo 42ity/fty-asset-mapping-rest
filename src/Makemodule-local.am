@@ -3,7 +3,7 @@ AM_CXXFLAGS += -fvisibility=hidden
 
 ECPPC ?= ecppc
 ECPPFLAGS = --nolog
-ECPPFLAGS_CPP = -I$(top_builddir)/include -I$(top_srcdir)/include
+ECPPFLAGS_CPP = -I$(top_builddir)/include -I$(top_srcdir)/include -I$(top_builddir)/src -I$(top_srcdir)/src
 
 ECPPFILES= \
 	rest_communication_DELETE.ecpp \
