@@ -22,6 +22,7 @@ git clone --quiet --depth 1 -b 2.2-FTY-master https://github.com/42ity/tntnet.gi
 git clone --quiet --depth 1 -b 1.3-FTY-master https://github.com/42ity/tntdb.git tntdb
 git clone --quiet --depth 1 -b master https://github.com/42ity/fty-common-db.git fty-common-db
 git clone --quiet --depth 1 -b master https://github.com/42ity/fty-common-rest.git fty-common-rest
+git clone --quiet --depth 1 -b master https://github.com/42ity/fty-common-socket.git fty-common-socket
 git clone --quiet --depth 1 -b master https://github.com/42ity/fty-security-wallet.git fty-security-wallet
 cd -
 

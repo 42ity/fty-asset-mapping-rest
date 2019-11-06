@@ -86,6 +86,7 @@ pkg_deps_prereqs_source: &pkg_deps_prereqs_source
     - tntdb-dev
     - libfty-common-db-dev
     - libfty-common-rest-dev
+    - libfty-common-socket-dev
     - libfty-security-wallet-dev
 
 # NOTE: Our forks are checked out and built without pkg dependencies in use

@@ -21,6 +21,7 @@ Build-Depends: debhelper (>= 9),
     libtntdb-dev,
     libfty-common-db-dev,
     libfty-common-rest-dev,
+    libfty-common-socket-dev,
     libfty-security-wallet-dev,
     asciidoc-base | asciidoc, xmlto,
     dh-autoreconf

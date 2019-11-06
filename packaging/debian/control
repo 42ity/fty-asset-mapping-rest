@@ -42,6 +42,7 @@ Build-Depends: debhelper (>= 9),
     libtntdb-dev,
     libfty-common-db-dev,
     libfty-common-rest-dev,
+    libfty-common-socket-dev,
     libfty-security-wallet-dev,
     gcc (>= 4.9.0), g++ (>= 4.9.0),
     asciidoc-base | asciidoc, xmlto,
@@ -74,6 +75,7 @@ Depends:
     libtntdb-dev,
     libfty-common-db-dev,
     libfty-common-rest-dev,
+    libfty-common-socket-dev,
     libfty-security-wallet-dev,
     libfty-asset-mapping-rest1 (= ${binary:Version})
 Description: fty-asset-mapping-rest development tools
@@ -97,6 +99,8 @@ Depends:
     libfty-common-mlm1,
     libfty-common-db1,
     libfty-common-rest1,
+    libfty-common-socket1,
+    libfty-security-wallet1,
     ipc-data
 Recommends: msmtp
 Description: grouping of end-user solution with fty-asset-mapping-rest
