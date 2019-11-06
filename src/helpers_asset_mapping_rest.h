@@ -19,8 +19,8 @@
     =========================================================================
 */
 
-#ifndef RESTAPI_HELPERS_H_INCLUDED
-#define RESTAPI_HELPERS_H_INCLUDED
+#ifndef RESTAPI_HELPERS_ASSET_MAPPING_REST_H_INCLUDED
+#define RESTAPI_HELPERS_ASSET_MAPPING_REST_H_INCLUDED
 
 #include "cam_accessor.h"
 
