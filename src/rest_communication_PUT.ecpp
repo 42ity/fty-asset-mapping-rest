@@ -32,7 +32,7 @@
 #include <dirent.h>
 #include <unistd.h>
 
-#include "helpers.h"
+#include <src/helpers_asset_mapping_rest.h>
 
 #include "cam_accessor.h"
 #include "cam_exception.h"

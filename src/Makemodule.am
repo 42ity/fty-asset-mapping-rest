@@ -13,7 +13,7 @@ lib_LTLIBRARIES += src/libfty_asset_mapping_rest.la
 pkgconfig_DATA = src/libfty_asset_mapping_rest.pc
 
 src_libfty_asset_mapping_rest_la_SOURCES = \
-    src/helpers.cc \
+    src/helpers_asset_mapping_rest.cc \
     src/rest_communications_POST.cc \
     src/rest_communications_GET.cc \
     src/rest_communication_GET.cc \

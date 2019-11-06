@@ -72,7 +72,7 @@ EXTRA_DIST += \
 endif
 
 EXTRA_DIST += \
-    src/helpers.h \
+    src/helpers_asset_mapping_rest.h \
     src/rest_communications_POST.h \
     src/rest_communications_GET.h \
     src/rest_communication_GET.h \

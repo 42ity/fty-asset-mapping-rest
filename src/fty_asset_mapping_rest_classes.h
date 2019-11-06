@@ -33,9 +33,9 @@
 #include "../include/fty-asset-mapping-rest.h"
 
 //  Opaque class structures to allow forward references
-#ifndef HELPERS_T_DEFINED
-typedef struct _helpers_t helpers_t;
-#define HELPERS_T_DEFINED
+#ifndef HELPERS_ASSET_MAPPING_REST_T_DEFINED
+typedef struct _helpers_asset_mapping_rest_t helpers_asset_mapping_rest_t;
+#define HELPERS_ASSET_MAPPING_REST_T_DEFINED
 #endif
 #ifndef REST_COMMUNICATIONS_POST_T_DEFINED
 typedef struct _rest_communications_post_t rest_communications_post_t;
@@ -99,7 +99,7 @@ safe_malloc (size_t size, const char *file, unsigned line)
 #endif // __CZMQ_PRELUDE_H_INCLUDED__
 
 
-#include "helpers.h"
+#include "helpers_asset_mapping_rest.h"
 #include "rest_communications_POST.h"
 #include "rest_communications_GET.h"
 #include "rest_communication_GET.h"
