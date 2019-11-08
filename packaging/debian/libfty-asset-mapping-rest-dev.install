@@ -5,5 +5,5 @@
 # Note that the .so symlink is delivered by main "library" package
 usr/include/*
 ###usr/lib/*/*/libfty_asset_mapping_rest.so
-usr/lib/*/libfty_asset_mapping_rest.so
+###usr/lib/*/libfty_asset_mapping_rest.so
 usr/lib/*/pkgconfig/libfty_asset_mapping_rest.pc
