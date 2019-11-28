@@ -1,0 +1,5 @@
+   fty-asset-mapping-rest -> cxxtools;
+   fty-asset-mapping-rest -> fty-common-logging;
+   fty-asset-mapping-rest -> fty-common-mlm;
+   fty-asset-mapping-rest -> fty-common-rest;
+   fty-asset-mapping-rest -> fty-security-wallet;
