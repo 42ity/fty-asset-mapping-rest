@@ -6,6 +6,9 @@ Maintainer: fty-asset-mapping-rest Developers <eatonipcopensource@eaton.com>
 Architecture: any
 Build-Depends: debhelper (>= 9),
     pkg-config,
+    libsodium-dev,
+    libzmq3-dev,
+    libczmq-dev (>= 3.0.2),
     libcxxtools-dev,
     libfty-common-logging-dev,
     libfty-common-mlm-dev,

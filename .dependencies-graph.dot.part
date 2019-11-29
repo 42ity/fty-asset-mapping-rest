@@ -1,3 +1,6 @@
+   fty-asset-mapping-rest -> libsodium;
+   fty-asset-mapping-rest -> libzmq;
+   fty-asset-mapping-rest -> czmq;
    fty-asset-mapping-rest -> cxxtools;
    fty-asset-mapping-rest -> fty-common-logging;
    fty-asset-mapping-rest -> fty-common-mlm;

@@ -54,6 +54,9 @@ BuildRequires:  xmlto
 # "4.9 or newer".
 BuildRequires:  devtoolset-3-gcc devtoolset-3-gcc-c++
 BuildRequires:  gcc-c++ >= 4.9.0
+BuildRequires:  libsodium-devel
+BuildRequires:  zeromq-devel
+BuildRequires:  czmq-devel >= 3.0.2
 BuildRequires:  cxxtools-devel
 BuildRequires:  fty-common-logging-devel
 BuildRequires:  fty-common-mlm-devel
@@ -84,6 +87,9 @@ This package contains shared library for fty-asset-mapping-rest: asset mapping r
 Summary:        asset mapping rest api
 Group:          System/Libraries
 Requires:       libfty_asset_mapping_rest1 = %{version}
+Requires:       libsodium-devel
+Requires:       zeromq-devel
+Requires:       czmq-devel >= 3.0.2
 Requires:       cxxtools-devel
 Requires:       fty-common-logging-devel
 Requires:       fty-common-mlm-devel
