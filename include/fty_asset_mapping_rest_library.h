@@ -32,6 +32,7 @@
 //  External dependencies
 #include <czmq.h>
 #include <cxxtools/allocator.h>
+#include <fty_common.h>
 #include <fty_log.h>
 #include <fty_common_mlm.h>
 #include <fty_common_rest.h>

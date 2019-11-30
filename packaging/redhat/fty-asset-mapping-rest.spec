@@ -58,6 +58,7 @@ BuildRequires:  libsodium-devel
 BuildRequires:  zeromq-devel
 BuildRequires:  czmq-devel >= 3.0.2
 BuildRequires:  cxxtools-devel
+BuildRequires:  fty-common-devel
 BuildRequires:  fty-common-logging-devel
 BuildRequires:  fty-common-mlm-devel
 BuildRequires:  fty-common-rest-devel
@@ -91,6 +92,7 @@ Requires:       libsodium-devel
 Requires:       zeromq-devel
 Requires:       czmq-devel >= 3.0.2
 Requires:       cxxtools-devel
+Requires:       fty-common-devel
 Requires:       fty-common-logging-devel
 Requires:       fty-common-mlm-devel
 Requires:       fty-common-rest-devel
