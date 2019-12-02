@@ -63,6 +63,7 @@ BuildRequires:  fty-common-logging-devel
 BuildRequires:  fty-common-mlm-devel
 BuildRequires:  fty-common-rest-devel
 BuildRequires:  fty-security-wallet-devel
+BuildRequires:  tntdb-devel
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
 %description
@@ -97,6 +98,7 @@ Requires:       fty-common-logging-devel
 Requires:       fty-common-mlm-devel
 Requires:       fty-common-rest-devel
 Requires:       fty-security-wallet-devel
+Requires:       tntdb-devel
 
 %description devel
 asset mapping rest api development tools

@@ -7,3 +7,4 @@
    fty-asset-mapping-rest -> fty-common-mlm;
    fty-asset-mapping-rest -> fty-common-rest;
    fty-asset-mapping-rest -> fty-security-wallet;
+   fty-asset-mapping-rest -> tntdb;
