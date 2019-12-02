@@ -161,258 +161,6 @@ PREVIOUS_CFLAGS="${CFLAGS}"
 PREVIOUS_LIBS="${LIBS}"
 
 
-was_cxxtools_check_lib_detected=no
-
-search_cxxtools="yes"
-
-AC_ARG_WITH([cxxtools],
-    [
-        AS_HELP_STRING([--with-cxxtools],
-        [yes or no. Optionally specify cxxtools prefix (directory where its include/ and lib/ are located), but that is only used if pkgconfig metadata is not found first])
-    ],
-    [
-        search_cxxtools="yes"
-    ],
-    [
-        search_cxxtools="yes"
-    ])
-AS_CASE([x"${with_cxxtools}"],
-    [xyes], [search_cxxtools="yes"],
-    [xno],  [search_cxxtools="no"])
-
-dnl We do not abort right now, because the maintainer/developer may have
-dnl something particular in mind, e.g. to build just parts of a project.
-AS_IF([test x"${search_cxxtools}" = xno],
-    [AC_MSG_WARN([Required dependency on cxxtools was explicitly disabled during configuration by '--with-cxxtools=no'; subsequent full build of fty-asset-mapping-rest may fail])])
-
-AS_IF([test x"${search_cxxtools}" = xyes], [
-    # Archive previously detected and supplied flags
-    PRE_SEARCH_CFLAGS="${CFLAGS}"
-    PRE_SEARCH_LIBS="${LIBS}"
-
-    found_pkgconfig=""
-    PKG_CHECK_MODULES([cxxtools], [cxxtools >= 0.0.0],
-    [
-        was_cxxtools_check_lib_detected=pkgcfg
-        found_pkgconfig="cxxtools"
-    ],
-    [
-        AC_MSG_NOTICE([Package cxxtools not found; falling back to defined compilability tests])
-
-        cxxtools_synthetic_cflags=""
-        cxxtools_synthetic_libs="-lcxxtools"
-
-        if test -n "${with_cxxtools}" && test x"${with_cxxtools}" != xyes && test x"${with_cxxtools}" != xno; then
-            if test -r "${with_cxxtools}/include/cxxtools/allocator.h"; then
-                cxxtools_synthetic_cflags="-I${with_cxxtools}/include"
-                cxxtools_synthetic_libs="-L${with_cxxtools}/lib -lcxxtools"
-            else
-            AC_MSG_ERROR([Header file ${with_cxxtools}/include/cxxtools/allocator.h was not found. Please check cxxtools prefix])
-            fi
-        else
-            AC_CHECK_HEADER([cxxtools/allocator.h], [],
-            AC_MSG_ERROR([Header file cxxtools/allocator.h was not found in default search paths])
-                )
-        fi
-
-        AC_CHECK_LIB([cxxtools], [cxxtools::Utf8Codec::Utf8Codec],
-            [
-                was_cxxtools_check_lib_detected=yes
-                PKGCFG_LIBS_PRIVATE="$PKGCFG_LIBS_PRIVATE -lcxxtools"
-            ],
-            [AC_MSG_ERROR([cannot link with -lcxxtools, install cxxtools])])
-    ])
-
-dnl END of PKG_CHECK_MODULES and/or direct tests for cxxtools
-    AS_CASE(["x${was_cxxtools_check_lib_detected}"],
-        [xpkgcfg], [
-                PKGCFG_NAMES_PRIVATE="$PKGCFG_NAMES_PRIVATE ${found_pkgconfig}"
-                CFLAGS="${cxxtools_CFLAGS} ${CFLAGS}"
-                LIBS="${cxxtools_LIBS} ${LIBS}"
-            ],
-        [xyes], [
-                CFLAGS="${cxxtools_synthetic_cflags} ${CFLAGS}"
-                LDFLAGS="${cxxtools_synthetic_libs} ${LDFLAGS}"
-                LIBS="${cxxtools_synthetic_libs} ${LIBS}"
-
-                AC_SUBST([cxxtools_CFLAGS],[${cxxtools_synthetic_cflags}])
-                AC_SUBST([cxxtools_LIBS],[${cxxtools_synthetic_libs}])
-            ],
-        [xno], [
-            AC_MSG_ERROR([Cannot find pkg-config metadata for cxxtools 0.0.0 or higher])
-    ])
-])
-dnl END of enabled attempts to search for cxxtools
-
-
-was_log4cplus_check_lib_detected=no
-
-search_log4cplus="yes"
-
-AC_ARG_WITH([log4cplus],
-    [
-        AS_HELP_STRING([--with-log4cplus],
-        [yes or no. Optionally specify log4cplus prefix (directory where its include/ and lib/ are located), but that is only used if pkgconfig metadata is not found first])
-    ],
-    [
-        search_log4cplus="yes"
-    ],
-    [
-        search_log4cplus="yes"
-    ])
-AS_CASE([x"${with_log4cplus}"],
-    [xyes], [search_log4cplus="yes"],
-    [xno],  [search_log4cplus="no"])
-
-dnl We do not abort right now, because the maintainer/developer may have
-dnl something particular in mind, e.g. to build just parts of a project.
-AS_IF([test x"${search_log4cplus}" = xno],
-    [AC_MSG_WARN([Required dependency on log4cplus was explicitly disabled during configuration by '--with-log4cplus=no'; subsequent full build of fty-asset-mapping-rest may fail])])
-
-AS_IF([test x"${search_log4cplus}" = xyes], [
-    # Archive previously detected and supplied flags
-    PRE_SEARCH_CFLAGS="${CFLAGS}"
-    PRE_SEARCH_LIBS="${LIBS}"
-
-    found_pkgconfig=""
-    PKG_CHECK_MODULES([log4cplus], [log4cplus >= 0.0.0],
-    [
-        was_log4cplus_check_lib_detected=pkgcfg
-        found_pkgconfig="log4cplus"
-    ],
-    [
-        AC_MSG_NOTICE([Package log4cplus not found; falling back to defined compilability tests])
-
-        log4cplus_synthetic_cflags=""
-        log4cplus_synthetic_libs="-llog4cplus"
-
-        if test -n "${with_log4cplus}" && test x"${with_log4cplus}" != xyes && test x"${with_log4cplus}" != xno; then
-            if test -r "${with_log4cplus}/include/log4cplus/logger.h"; then
-                log4cplus_synthetic_cflags="-I${with_log4cplus}/include"
-                log4cplus_synthetic_libs="-L${with_log4cplus}/lib -llog4cplus"
-            else
-            AC_MSG_ERROR([Header file ${with_log4cplus}/include/log4cplus/logger.h was not found. Please check log4cplus prefix])
-            fi
-        else
-            AC_CHECK_HEADER([log4cplus/logger.h], [],
-            AC_MSG_ERROR([Header file log4cplus/logger.h was not found in default search paths])
-                )
-        fi
-
-        AC_CHECK_LIB([log4cplus], [appender_test],
-            [
-                was_log4cplus_check_lib_detected=yes
-                PKGCFG_LIBS_PRIVATE="$PKGCFG_LIBS_PRIVATE -llog4cplus"
-            ],
-            [AC_MSG_ERROR([cannot link with -llog4cplus, install log4cplus])])
-    ])
-
-dnl END of PKG_CHECK_MODULES and/or direct tests for log4cplus
-    AS_CASE(["x${was_log4cplus_check_lib_detected}"],
-        [xpkgcfg], [
-                PKGCFG_NAMES_PRIVATE="$PKGCFG_NAMES_PRIVATE ${found_pkgconfig}"
-                CFLAGS="${log4cplus_CFLAGS} ${CFLAGS}"
-                LIBS="${log4cplus_LIBS} ${LIBS}"
-            ],
-        [xyes], [
-                CFLAGS="${log4cplus_synthetic_cflags} ${CFLAGS}"
-                LDFLAGS="${log4cplus_synthetic_libs} ${LDFLAGS}"
-                LIBS="${log4cplus_synthetic_libs} ${LIBS}"
-
-                AC_SUBST([log4cplus_CFLAGS],[${log4cplus_synthetic_cflags}])
-                AC_SUBST([log4cplus_LIBS],[${log4cplus_synthetic_libs}])
-            ],
-        [xno], [
-            AC_MSG_ERROR([Cannot find pkg-config metadata for log4cplus 0.0.0 or higher])
-    ])
-])
-dnl END of enabled attempts to search for log4cplus
-
-
-was_fty_common_logging_check_lib_detected=no
-
-search_libfty_common_logging="yes"
-
-AC_ARG_WITH([libfty_common_logging],
-    [
-        AS_HELP_STRING([--with-libfty_common_logging],
-        [yes or no. Optionally specify libfty_common_logging prefix (directory where its include/ and lib/ are located), but that is only used if pkgconfig metadata is not found first])
-    ],
-    [
-        search_libfty_common_logging="yes"
-    ],
-    [
-        search_libfty_common_logging="yes"
-    ])
-AS_CASE([x"${with_libfty_common_logging}"],
-    [xyes], [search_libfty_common_logging="yes"],
-    [xno],  [search_libfty_common_logging="no"])
-
-dnl We do not abort right now, because the maintainer/developer may have
-dnl something particular in mind, e.g. to build just parts of a project.
-AS_IF([test x"${search_libfty_common_logging}" = xno],
-    [AC_MSG_WARN([Required dependency on fty_common_logging was explicitly disabled during configuration by '--with-libfty_common_logging=no'; subsequent full build of fty-asset-mapping-rest may fail])])
-
-AS_IF([test x"${search_libfty_common_logging}" = xyes], [
-    # Archive previously detected and supplied flags
-    PRE_SEARCH_CFLAGS="${CFLAGS}"
-    PRE_SEARCH_LIBS="${LIBS}"
-
-    found_pkgconfig=""
-    PKG_CHECK_MODULES([fty_common_logging], [libfty_common_logging >= 0.0.0],
-    [
-        was_fty_common_logging_check_lib_detected=pkgcfg
-        found_pkgconfig="libfty_common_logging"
-    ],
-    [
-        AC_MSG_NOTICE([Package libfty_common_logging not found; falling back to defined compilability tests])
-
-        fty_common_logging_synthetic_cflags=""
-        fty_common_logging_synthetic_libs="-lfty-common-logging"
-
-        if test -n "${with_libfty_common_logging}" && test x"${with_libfty_common_logging}" != xyes && test x"${with_libfty_common_logging}" != xno; then
-            if test -r "${with_libfty_common_logging}/include/fty_log.h"; then
-                fty_common_logging_synthetic_cflags="-I${with_libfty_common_logging}/include"
-                fty_common_logging_synthetic_libs="-L${with_libfty_common_logging}/lib -lfty-common-logging"
-            else
-            AC_MSG_ERROR([Header file ${with_libfty_common_logging}/include/fty_log.h was not found. Please check libfty_common_logging prefix])
-            fi
-        else
-            AC_CHECK_HEADER([fty_log.h], [],
-            AC_MSG_ERROR([Header file fty_log.h was not found in default search paths])
-                )
-        fi
-
-        AC_CHECK_LIB([fty-common-logging], [fty_common_logging_selftest],
-            [
-                was_fty_common_logging_check_lib_detected=yes
-                PKGCFG_LIBS_PRIVATE="$PKGCFG_LIBS_PRIVATE -lfty-common-logging"
-            ],
-            [AC_MSG_ERROR([cannot link with -lfty-common-logging, install libfty_common_logging])])
-    ])
-
-dnl END of PKG_CHECK_MODULES and/or direct tests for libfty_common_logging
-    AS_CASE(["x${was_fty_common_logging_check_lib_detected}"],
-        [xpkgcfg], [
-                PKGCFG_NAMES_PRIVATE="$PKGCFG_NAMES_PRIVATE ${found_pkgconfig}"
-                CFLAGS="${fty_common_logging_CFLAGS} ${CFLAGS}"
-                LIBS="${fty_common_logging_LIBS} ${LIBS}"
-            ],
-        [xyes], [
-                CFLAGS="${fty_common_logging_synthetic_cflags} ${CFLAGS}"
-                LDFLAGS="${fty_common_logging_synthetic_libs} ${LDFLAGS}"
-                LIBS="${fty_common_logging_synthetic_libs} ${LIBS}"
-
-                AC_SUBST([fty_common_logging_CFLAGS],[${fty_common_logging_synthetic_cflags}])
-                AC_SUBST([fty_common_logging_LIBS],[${fty_common_logging_synthetic_libs}])
-            ],
-        [xno], [
-            AC_MSG_ERROR([Cannot find pkg-config metadata for libfty_common_logging 0.0.0 or higher])
-    ])
-])
-dnl END of enabled attempts to search for libfty_common_logging
-
-
 was_libsodium_check_lib_detected=no
 
 search_libsodium="yes"
@@ -665,149 +413,65 @@ dnl END of PKG_CHECK_MODULES and/or direct tests for libczmq
 dnl END of enabled attempts to search for libczmq
 
 
-was_malamute_check_lib_detected=no
+was_cxxtools_check_lib_detected=no
 
-search_libmlm="yes"
+search_cxxtools="yes"
 
-AC_ARG_WITH([libmlm],
+AC_ARG_WITH([cxxtools],
     [
-        AS_HELP_STRING([--with-libmlm],
-        [yes or no. Optionally specify libmlm prefix (directory where its include/ and lib/ are located), but that is only used if pkgconfig metadata is not found first])
+        AS_HELP_STRING([--with-cxxtools],
+        [yes or no. Optionally specify cxxtools prefix (directory where its include/ and lib/ are located), but that is only used if pkgconfig metadata is not found first])
     ],
     [
-        search_libmlm="yes"
+        search_cxxtools="yes"
     ],
     [
-        search_libmlm="yes"
+        search_cxxtools="yes"
     ])
-AS_CASE([x"${with_libmlm}"],
-    [xyes], [search_libmlm="yes"],
-    [xno],  [search_libmlm="no"])
+AS_CASE([x"${with_cxxtools}"],
+    [xyes], [search_cxxtools="yes"],
+    [xno],  [search_cxxtools="no"])
 
 dnl We do not abort right now, because the maintainer/developer may have
 dnl something particular in mind, e.g. to build just parts of a project.
-AS_IF([test x"${search_libmlm}" = xno],
-    [AC_MSG_WARN([Required dependency on malamute was explicitly disabled during configuration by '--with-libmlm=no'; subsequent full build of fty-asset-mapping-rest may fail])])
+AS_IF([test x"${search_cxxtools}" = xno],
+    [AC_MSG_WARN([Required dependency on cxxtools was explicitly disabled during configuration by '--with-cxxtools=no'; subsequent full build of fty-asset-mapping-rest may fail])])
 
-AS_IF([test x"${search_libmlm}" = xyes], [
+AS_IF([test x"${search_cxxtools}" = xyes], [
     # Archive previously detected and supplied flags
     PRE_SEARCH_CFLAGS="${CFLAGS}"
     PRE_SEARCH_LIBS="${LIBS}"
 
     found_pkgconfig=""
-    PKG_CHECK_MODULES([malamute], [libmlm >= 1.0.0],
+    PKG_CHECK_MODULES([cxxtools], [cxxtools >= 0.0.0],
     [
-        was_malamute_check_lib_detected=pkgcfg
-        found_pkgconfig="libmlm"
+        was_cxxtools_check_lib_detected=pkgcfg
+        found_pkgconfig="cxxtools"
     ],
     [
-        AC_MSG_NOTICE([Package libmlm not found with needed constraints; falling back to defined compilability tests])
-
-        malamute_synthetic_cflags=""
-        malamute_synthetic_libs="-lmlm"
-
-        if test -n "${with_libmlm}" && test x"${with_libmlm}" != xyes && test x"${with_libmlm}" != xno; then
-            if test -r "${with_libmlm}/include/malamute.h"; then
-                malamute_synthetic_cflags="-I${with_libmlm}/include"
-                malamute_synthetic_libs="-L${with_libmlm}/lib -lmlm"
-            else
-            AC_MSG_ERROR([Header file ${with_libmlm}/include/malamute.h was not found. Please check libmlm prefix])
-            fi
-        else
-            AC_CHECK_HEADER([malamute.h], [],
-            AC_MSG_ERROR([Header file malamute.h was not found in default search paths])
-                )
-        fi
-
-        AC_CHECK_LIB([mlm], [mlm_server_test],
-            [
-                was_malamute_check_lib_detected=yes
-                PKGCFG_LIBS_PRIVATE="$PKGCFG_LIBS_PRIVATE -lmlm"
-            ],
-            [AC_MSG_ERROR([cannot link with -lmlm, install libmlm])])
+        AC_MSG_WARN([Attribute 'test' is not set on zproject dependency 'cxxtools' - please ensure it is set])
     ])
 
-dnl END of PKG_CHECK_MODULES and/or direct tests for libmlm
-    AS_CASE(["x${was_malamute_check_lib_detected}"],
-        [xpkgcfg], [
-                PKGCFG_NAMES_PRIVATE="$PKGCFG_NAMES_PRIVATE ${found_pkgconfig} >= 1.0.0"
-                CFLAGS="${malamute_CFLAGS} ${CFLAGS}"
-                LIBS="${malamute_LIBS} ${LIBS}"
-            ],
-        [xyes], [
-                CFLAGS="${malamute_synthetic_cflags} ${CFLAGS}"
-                LDFLAGS="${malamute_synthetic_libs} ${LDFLAGS}"
-                LIBS="${malamute_synthetic_libs} ${LIBS}"
-
-                AC_SUBST([malamute_CFLAGS],[${malamute_synthetic_cflags}])
-                AC_SUBST([malamute_LIBS],[${malamute_synthetic_libs}])
-            ],
-        [xno], [
-            AC_MSG_ERROR([Cannot find pkg-config metadata for libmlm 1.0.0 or higher])
-    ])
-])
-dnl END of enabled attempts to search for libmlm
-
-
-was_openssl_check_lib_detected=no
-
-search_openssl="yes"
-
-AC_ARG_WITH([openssl],
-    [
-        AS_HELP_STRING([--with-openssl],
-        [yes or no. Optionally specify openssl prefix (directory where its include/ and lib/ are located), but that is only used if pkgconfig metadata is not found first])
-    ],
-    [
-        search_openssl="yes"
-    ],
-    [
-        search_openssl="yes"
-    ])
-AS_CASE([x"${with_openssl}"],
-    [xyes], [search_openssl="yes"],
-    [xno],  [search_openssl="no"])
-
-dnl We do not abort right now, because the maintainer/developer may have
-dnl something particular in mind, e.g. to build just parts of a project.
-AS_IF([test x"${search_openssl}" = xno],
-    [AC_MSG_WARN([Required dependency on openssl was explicitly disabled during configuration by '--with-openssl=no'; subsequent full build of fty-asset-mapping-rest may fail])])
-
-AS_IF([test x"${search_openssl}" = xyes], [
-    # Archive previously detected and supplied flags
-    PRE_SEARCH_CFLAGS="${CFLAGS}"
-    PRE_SEARCH_LIBS="${LIBS}"
-
-    found_pkgconfig=""
-    PKG_CHECK_MODULES([openssl], [openssl >= 0.0.0],
-    [
-        was_openssl_check_lib_detected=pkgcfg
-        found_pkgconfig="openssl"
-    ],
-    [
-        AC_MSG_WARN([Attribute 'test' is not set on zproject dependency 'openssl' - please ensure it is set])
-    ])
-
-dnl END of PKG_CHECK_MODULES and/or direct tests for openssl
-    AS_CASE(["x${was_openssl_check_lib_detected}"],
+dnl END of PKG_CHECK_MODULES and/or direct tests for cxxtools
+    AS_CASE(["x${was_cxxtools_check_lib_detected}"],
         [xpkgcfg], [
                 PKGCFG_NAMES_PRIVATE="$PKGCFG_NAMES_PRIVATE ${found_pkgconfig}"
-                CFLAGS="${openssl_CFLAGS} ${CFLAGS}"
-                LIBS="${openssl_LIBS} ${LIBS}"
+                CFLAGS="${cxxtools_CFLAGS} ${CFLAGS}"
+                LIBS="${cxxtools_LIBS} ${LIBS}"
             ],
         [xyes], [
-                CFLAGS="${openssl_synthetic_cflags} ${CFLAGS}"
-                LDFLAGS="${openssl_synthetic_libs} ${LDFLAGS}"
-                LIBS="${openssl_synthetic_libs} ${LIBS}"
+                CFLAGS="${cxxtools_synthetic_cflags} ${CFLAGS}"
+                LDFLAGS="${cxxtools_synthetic_libs} ${LDFLAGS}"
+                LIBS="${cxxtools_synthetic_libs} ${LIBS}"
 
-                AC_SUBST([openssl_CFLAGS],[${openssl_synthetic_cflags}])
-                AC_SUBST([openssl_LIBS],[${openssl_synthetic_libs}])
+                AC_SUBST([cxxtools_CFLAGS],[${cxxtools_synthetic_cflags}])
+                AC_SUBST([cxxtools_LIBS],[${cxxtools_synthetic_libs}])
             ],
         [xno], [
-            AC_MSG_ERROR([Cannot find pkg-config metadata for openssl 0.0.0 or higher])
+            AC_MSG_ERROR([Cannot find pkg-config metadata for cxxtools 0.0.0 or higher])
     ])
 ])
-dnl END of enabled attempts to search for openssl
+dnl END of enabled attempts to search for cxxtools
 
 
 was_fty_common_check_lib_detected=no
@@ -846,30 +510,7 @@ AS_IF([test x"${search_libfty_common}" = xyes], [
         found_pkgconfig="libfty_common"
     ],
     [
-        AC_MSG_NOTICE([Package libfty_common not found; falling back to defined compilability tests])
-
-        fty_common_synthetic_cflags=""
-        fty_common_synthetic_libs="-lfty-common"
-
-        if test -n "${with_libfty_common}" && test x"${with_libfty_common}" != xyes && test x"${with_libfty_common}" != xno; then
-            if test -r "${with_libfty_common}/include/fty_common.h"; then
-                fty_common_synthetic_cflags="-I${with_libfty_common}/include"
-                fty_common_synthetic_libs="-L${with_libfty_common}/lib -lfty-common"
-            else
-            AC_MSG_ERROR([Header file ${with_libfty_common}/include/fty_common.h was not found. Please check libfty_common prefix])
-            fi
-        else
-            AC_CHECK_HEADER([fty_common.h], [],
-            AC_MSG_ERROR([Header file fty_common.h was not found in default search paths])
-                )
-        fi
-
-        AC_CHECK_LIB([fty-common], [fty_common_selftest],
-            [
-                was_fty_common_check_lib_detected=yes
-                PKGCFG_LIBS_PRIVATE="$PKGCFG_LIBS_PRIVATE -lfty-common"
-            ],
-            [AC_MSG_ERROR([cannot link with -lfty-common, install libfty_common])])
+        AC_MSG_WARN([Attribute 'test' is not set on zproject dependency 'fty-common' - please ensure it is set])
     ])
 
 dnl END of PKG_CHECK_MODULES and/or direct tests for libfty_common
@@ -892,6 +533,67 @@ dnl END of PKG_CHECK_MODULES and/or direct tests for libfty_common
     ])
 ])
 dnl END of enabled attempts to search for libfty_common
+
+
+was_fty_common_logging_check_lib_detected=no
+
+search_libfty_common_logging="yes"
+
+AC_ARG_WITH([libfty_common_logging],
+    [
+        AS_HELP_STRING([--with-libfty_common_logging],
+        [yes or no. Optionally specify libfty_common_logging prefix (directory where its include/ and lib/ are located), but that is only used if pkgconfig metadata is not found first])
+    ],
+    [
+        search_libfty_common_logging="yes"
+    ],
+    [
+        search_libfty_common_logging="yes"
+    ])
+AS_CASE([x"${with_libfty_common_logging}"],
+    [xyes], [search_libfty_common_logging="yes"],
+    [xno],  [search_libfty_common_logging="no"])
+
+dnl We do not abort right now, because the maintainer/developer may have
+dnl something particular in mind, e.g. to build just parts of a project.
+AS_IF([test x"${search_libfty_common_logging}" = xno],
+    [AC_MSG_WARN([Required dependency on fty_common_logging was explicitly disabled during configuration by '--with-libfty_common_logging=no'; subsequent full build of fty-asset-mapping-rest may fail])])
+
+AS_IF([test x"${search_libfty_common_logging}" = xyes], [
+    # Archive previously detected and supplied flags
+    PRE_SEARCH_CFLAGS="${CFLAGS}"
+    PRE_SEARCH_LIBS="${LIBS}"
+
+    found_pkgconfig=""
+    PKG_CHECK_MODULES([fty_common_logging], [libfty_common_logging >= 0.0.0],
+    [
+        was_fty_common_logging_check_lib_detected=pkgcfg
+        found_pkgconfig="libfty_common_logging"
+    ],
+    [
+        AC_MSG_WARN([Attribute 'test' is not set on zproject dependency 'fty-common-logging' - please ensure it is set])
+    ])
+
+dnl END of PKG_CHECK_MODULES and/or direct tests for libfty_common_logging
+    AS_CASE(["x${was_fty_common_logging_check_lib_detected}"],
+        [xpkgcfg], [
+                PKGCFG_NAMES_PRIVATE="$PKGCFG_NAMES_PRIVATE ${found_pkgconfig}"
+                CFLAGS="${fty_common_logging_CFLAGS} ${CFLAGS}"
+                LIBS="${fty_common_logging_LIBS} ${LIBS}"
+            ],
+        [xyes], [
+                CFLAGS="${fty_common_logging_synthetic_cflags} ${CFLAGS}"
+                LDFLAGS="${fty_common_logging_synthetic_libs} ${LDFLAGS}"
+                LIBS="${fty_common_logging_synthetic_libs} ${LIBS}"
+
+                AC_SUBST([fty_common_logging_CFLAGS],[${fty_common_logging_synthetic_cflags}])
+                AC_SUBST([fty_common_logging_LIBS],[${fty_common_logging_synthetic_libs}])
+            ],
+        [xno], [
+            AC_MSG_ERROR([Cannot find pkg-config metadata for libfty_common_logging 0.0.0 or higher])
+    ])
+])
+dnl END of enabled attempts to search for libfty_common_logging
 
 
 was_fty_common_mlm_check_lib_detected=no
@@ -930,30 +632,7 @@ AS_IF([test x"${search_libfty_common_mlm}" = xyes], [
         found_pkgconfig="libfty_common_mlm"
     ],
     [
-        AC_MSG_NOTICE([Package libfty_common_mlm not found; falling back to defined compilability tests])
-
-        fty_common_mlm_synthetic_cflags=""
-        fty_common_mlm_synthetic_libs="-lfty-common-mlm"
-
-        if test -n "${with_libfty_common_mlm}" && test x"${with_libfty_common_mlm}" != xyes && test x"${with_libfty_common_mlm}" != xno; then
-            if test -r "${with_libfty_common_mlm}/include/fty_common_mlm.h"; then
-                fty_common_mlm_synthetic_cflags="-I${with_libfty_common_mlm}/include"
-                fty_common_mlm_synthetic_libs="-L${with_libfty_common_mlm}/lib -lfty-common-mlm"
-            else
-            AC_MSG_ERROR([Header file ${with_libfty_common_mlm}/include/fty_common_mlm.h was not found. Please check libfty_common_mlm prefix])
-            fi
-        else
-            AC_CHECK_HEADER([fty_common_mlm.h], [],
-            AC_MSG_ERROR([Header file fty_common_mlm.h was not found in default search paths])
-                )
-        fi
-
-        AC_CHECK_LIB([fty-common-mlm], [fty_common_mlm_selftest],
-            [
-                was_fty_common_mlm_check_lib_detected=yes
-                PKGCFG_LIBS_PRIVATE="$PKGCFG_LIBS_PRIVATE -lfty-common-mlm"
-            ],
-            [AC_MSG_ERROR([cannot link with -lfty-common-mlm, install libfty_common_mlm])])
+        AC_MSG_WARN([Attribute 'test' is not set on zproject dependency 'fty-common-mlm' - please ensure it is set])
     ])
 
 dnl END of PKG_CHECK_MODULES and/or direct tests for libfty_common_mlm
@@ -978,126 +657,126 @@ dnl END of PKG_CHECK_MODULES and/or direct tests for libfty_common_mlm
 dnl END of enabled attempts to search for libfty_common_mlm
 
 
-was_tntnet_check_lib_detected=no
+was_fty_common_rest_check_lib_detected=no
 
-search_tntnet="yes"
+search_libfty_common_rest="yes"
 
-AC_ARG_WITH([tntnet],
+AC_ARG_WITH([libfty_common_rest],
     [
-        AS_HELP_STRING([--with-tntnet],
-        [yes or no. Optionally specify tntnet prefix (directory where its include/ and lib/ are located), but that is only used if pkgconfig metadata is not found first])
+        AS_HELP_STRING([--with-libfty_common_rest],
+        [yes or no. Optionally specify libfty_common_rest prefix (directory where its include/ and lib/ are located), but that is only used if pkgconfig metadata is not found first])
     ],
     [
-        search_tntnet="yes"
+        search_libfty_common_rest="yes"
     ],
     [
-        search_tntnet="yes"
+        search_libfty_common_rest="yes"
     ])
-AS_CASE([x"${with_tntnet}"],
-    [xyes], [search_tntnet="yes"],
-    [xno],  [search_tntnet="no"])
+AS_CASE([x"${with_libfty_common_rest}"],
+    [xyes], [search_libfty_common_rest="yes"],
+    [xno],  [search_libfty_common_rest="no"])
 
 dnl We do not abort right now, because the maintainer/developer may have
 dnl something particular in mind, e.g. to build just parts of a project.
-AS_IF([test x"${search_tntnet}" = xno],
-    [AC_MSG_WARN([Required dependency on tntnet was explicitly disabled during configuration by '--with-tntnet=no'; subsequent full build of fty-asset-mapping-rest may fail])])
+AS_IF([test x"${search_libfty_common_rest}" = xno],
+    [AC_MSG_WARN([Required dependency on fty_common_rest was explicitly disabled during configuration by '--with-libfty_common_rest=no'; subsequent full build of fty-asset-mapping-rest may fail])])
 
-AS_IF([test x"${search_tntnet}" = xyes], [
+AS_IF([test x"${search_libfty_common_rest}" = xyes], [
     # Archive previously detected and supplied flags
     PRE_SEARCH_CFLAGS="${CFLAGS}"
     PRE_SEARCH_LIBS="${LIBS}"
 
     found_pkgconfig=""
-    PKG_CHECK_MODULES([tntnet], [tntnet >= 0.0.0],
+    PKG_CHECK_MODULES([fty_common_rest], [libfty_common_rest >= 0.0.0],
     [
-        was_tntnet_check_lib_detected=pkgcfg
-        found_pkgconfig="tntnet"
+        was_fty_common_rest_check_lib_detected=pkgcfg
+        found_pkgconfig="libfty_common_rest"
     ],
     [
-        AC_MSG_WARN([Attribute 'test' is not set on zproject dependency 'tntnet' - please ensure it is set])
+        AC_MSG_WARN([Attribute 'test' is not set on zproject dependency 'fty-common-rest' - please ensure it is set])
     ])
 
-dnl END of PKG_CHECK_MODULES and/or direct tests for tntnet
-    AS_CASE(["x${was_tntnet_check_lib_detected}"],
+dnl END of PKG_CHECK_MODULES and/or direct tests for libfty_common_rest
+    AS_CASE(["x${was_fty_common_rest_check_lib_detected}"],
         [xpkgcfg], [
                 PKGCFG_NAMES_PRIVATE="$PKGCFG_NAMES_PRIVATE ${found_pkgconfig}"
-                CFLAGS="${tntnet_CFLAGS} ${CFLAGS}"
-                LIBS="${tntnet_LIBS} ${LIBS}"
+                CFLAGS="${fty_common_rest_CFLAGS} ${CFLAGS}"
+                LIBS="${fty_common_rest_LIBS} ${LIBS}"
             ],
         [xyes], [
-                CFLAGS="${tntnet_synthetic_cflags} ${CFLAGS}"
-                LDFLAGS="${tntnet_synthetic_libs} ${LDFLAGS}"
-                LIBS="${tntnet_synthetic_libs} ${LIBS}"
+                CFLAGS="${fty_common_rest_synthetic_cflags} ${CFLAGS}"
+                LDFLAGS="${fty_common_rest_synthetic_libs} ${LDFLAGS}"
+                LIBS="${fty_common_rest_synthetic_libs} ${LIBS}"
 
-                AC_SUBST([tntnet_CFLAGS],[${tntnet_synthetic_cflags}])
-                AC_SUBST([tntnet_LIBS],[${tntnet_synthetic_libs}])
+                AC_SUBST([fty_common_rest_CFLAGS],[${fty_common_rest_synthetic_cflags}])
+                AC_SUBST([fty_common_rest_LIBS],[${fty_common_rest_synthetic_libs}])
             ],
         [xno], [
-            AC_MSG_ERROR([Cannot find pkg-config metadata for tntnet 0.0.0 or higher])
+            AC_MSG_ERROR([Cannot find pkg-config metadata for libfty_common_rest 0.0.0 or higher])
     ])
 ])
-dnl END of enabled attempts to search for tntnet
+dnl END of enabled attempts to search for libfty_common_rest
 
 
-was_libsasl2_check_lib_detected=no
+was_fty_security_wallet_check_lib_detected=no
 
-search_libsasl2="yes"
+search_libfty_security_wallet="yes"
 
-AC_ARG_WITH([libsasl2],
+AC_ARG_WITH([libfty_security_wallet],
     [
-        AS_HELP_STRING([--with-libsasl2],
-        [yes or no. Optionally specify libsasl2 prefix (directory where its include/ and lib/ are located), but that is only used if pkgconfig metadata is not found first])
+        AS_HELP_STRING([--with-libfty_security_wallet],
+        [yes or no. Optionally specify libfty_security_wallet prefix (directory where its include/ and lib/ are located), but that is only used if pkgconfig metadata is not found first])
     ],
     [
-        search_libsasl2="yes"
+        search_libfty_security_wallet="yes"
     ],
     [
-        search_libsasl2="yes"
+        search_libfty_security_wallet="yes"
     ])
-AS_CASE([x"${with_libsasl2}"],
-    [xyes], [search_libsasl2="yes"],
-    [xno],  [search_libsasl2="no"])
+AS_CASE([x"${with_libfty_security_wallet}"],
+    [xyes], [search_libfty_security_wallet="yes"],
+    [xno],  [search_libfty_security_wallet="no"])
 
 dnl We do not abort right now, because the maintainer/developer may have
 dnl something particular in mind, e.g. to build just parts of a project.
-AS_IF([test x"${search_libsasl2}" = xno],
-    [AC_MSG_WARN([Required dependency on libsasl2 was explicitly disabled during configuration by '--with-libsasl2=no'; subsequent full build of fty-asset-mapping-rest may fail])])
+AS_IF([test x"${search_libfty_security_wallet}" = xno],
+    [AC_MSG_WARN([Required dependency on fty_security_wallet was explicitly disabled during configuration by '--with-libfty_security_wallet=no'; subsequent full build of fty-asset-mapping-rest may fail])])
 
-AS_IF([test x"${search_libsasl2}" = xyes], [
+AS_IF([test x"${search_libfty_security_wallet}" = xyes], [
     # Archive previously detected and supplied flags
     PRE_SEARCH_CFLAGS="${CFLAGS}"
     PRE_SEARCH_LIBS="${LIBS}"
 
     found_pkgconfig=""
-    PKG_CHECK_MODULES([libsasl2], [libsasl2 >= 0.0.0],
+    PKG_CHECK_MODULES([fty_security_wallet], [libfty_security_wallet >= 0.0.0],
     [
-        was_libsasl2_check_lib_detected=pkgcfg
-        found_pkgconfig="libsasl2"
+        was_fty_security_wallet_check_lib_detected=pkgcfg
+        found_pkgconfig="libfty_security_wallet"
     ],
     [
-        AC_MSG_WARN([Attribute 'test' is not set on zproject dependency 'libsasl2' - please ensure it is set])
+        AC_MSG_WARN([Attribute 'test' is not set on zproject dependency 'fty-security-wallet' - please ensure it is set])
     ])
 
-dnl END of PKG_CHECK_MODULES and/or direct tests for libsasl2
-    AS_CASE(["x${was_libsasl2_check_lib_detected}"],
+dnl END of PKG_CHECK_MODULES and/or direct tests for libfty_security_wallet
+    AS_CASE(["x${was_fty_security_wallet_check_lib_detected}"],
         [xpkgcfg], [
                 PKGCFG_NAMES_PRIVATE="$PKGCFG_NAMES_PRIVATE ${found_pkgconfig}"
-                CFLAGS="${libsasl2_CFLAGS} ${CFLAGS}"
-                LIBS="${libsasl2_LIBS} ${LIBS}"
+                CFLAGS="${fty_security_wallet_CFLAGS} ${CFLAGS}"
+                LIBS="${fty_security_wallet_LIBS} ${LIBS}"
             ],
         [xyes], [
-                CFLAGS="${libsasl2_synthetic_cflags} ${CFLAGS}"
-                LDFLAGS="${libsasl2_synthetic_libs} ${LDFLAGS}"
-                LIBS="${libsasl2_synthetic_libs} ${LIBS}"
+                CFLAGS="${fty_security_wallet_synthetic_cflags} ${CFLAGS}"
+                LDFLAGS="${fty_security_wallet_synthetic_libs} ${LDFLAGS}"
+                LIBS="${fty_security_wallet_synthetic_libs} ${LIBS}"
 
-                AC_SUBST([libsasl2_CFLAGS],[${libsasl2_synthetic_cflags}])
-                AC_SUBST([libsasl2_LIBS],[${libsasl2_synthetic_libs}])
+                AC_SUBST([fty_security_wallet_CFLAGS],[${fty_security_wallet_synthetic_cflags}])
+                AC_SUBST([fty_security_wallet_LIBS],[${fty_security_wallet_synthetic_libs}])
             ],
         [xno], [
-            AC_MSG_ERROR([Cannot find pkg-config metadata for libsasl2 0.0.0 or higher])
+            AC_MSG_ERROR([Cannot find pkg-config metadata for libfty_security_wallet 0.0.0 or higher])
     ])
 ])
-dnl END of enabled attempts to search for libsasl2
+dnl END of enabled attempts to search for libfty_security_wallet
 
 
 was_tntdb_check_lib_detected=no
@@ -1182,342 +861,6 @@ dnl END of PKG_CHECK_MODULES and/or direct tests for tntdb
     ])
 ])
 dnl END of enabled attempts to search for tntdb
-
-
-was_fty_common_db_check_lib_detected=no
-
-search_libfty_common_db="yes"
-
-AC_ARG_WITH([libfty_common_db],
-    [
-        AS_HELP_STRING([--with-libfty_common_db],
-        [yes or no. Optionally specify libfty_common_db prefix (directory where its include/ and lib/ are located), but that is only used if pkgconfig metadata is not found first])
-    ],
-    [
-        search_libfty_common_db="yes"
-    ],
-    [
-        search_libfty_common_db="yes"
-    ])
-AS_CASE([x"${with_libfty_common_db}"],
-    [xyes], [search_libfty_common_db="yes"],
-    [xno],  [search_libfty_common_db="no"])
-
-dnl We do not abort right now, because the maintainer/developer may have
-dnl something particular in mind, e.g. to build just parts of a project.
-AS_IF([test x"${search_libfty_common_db}" = xno],
-    [AC_MSG_WARN([Required dependency on fty_common_db was explicitly disabled during configuration by '--with-libfty_common_db=no'; subsequent full build of fty-asset-mapping-rest may fail])])
-
-AS_IF([test x"${search_libfty_common_db}" = xyes], [
-    # Archive previously detected and supplied flags
-    PRE_SEARCH_CFLAGS="${CFLAGS}"
-    PRE_SEARCH_LIBS="${LIBS}"
-
-    found_pkgconfig=""
-    PKG_CHECK_MODULES([fty_common_db], [libfty_common_db >= 0.0.0],
-    [
-        was_fty_common_db_check_lib_detected=pkgcfg
-        found_pkgconfig="libfty_common_db"
-    ],
-    [
-        AC_MSG_NOTICE([Package libfty_common_db not found; falling back to defined compilability tests])
-
-        fty_common_db_synthetic_cflags=""
-        fty_common_db_synthetic_libs="-lfty-common-db"
-
-        if test -n "${with_libfty_common_db}" && test x"${with_libfty_common_db}" != xyes && test x"${with_libfty_common_db}" != xno; then
-            if test -r "${with_libfty_common_db}/include/fty_common_db.h"; then
-                fty_common_db_synthetic_cflags="-I${with_libfty_common_db}/include"
-                fty_common_db_synthetic_libs="-L${with_libfty_common_db}/lib -lfty-common-db"
-            else
-            AC_MSG_ERROR([Header file ${with_libfty_common_db}/include/fty_common_db.h was not found. Please check libfty_common_db prefix])
-            fi
-        else
-            AC_CHECK_HEADER([fty_common_db.h], [],
-            AC_MSG_ERROR([Header file fty_common_db.h was not found in default search paths])
-                )
-        fi
-
-        AC_CHECK_LIB([fty-common-db], [fty_common_db_selftest],
-            [
-                was_fty_common_db_check_lib_detected=yes
-                PKGCFG_LIBS_PRIVATE="$PKGCFG_LIBS_PRIVATE -lfty-common-db"
-            ],
-            [AC_MSG_ERROR([cannot link with -lfty-common-db, install libfty_common_db])])
-    ])
-
-dnl END of PKG_CHECK_MODULES and/or direct tests for libfty_common_db
-    AS_CASE(["x${was_fty_common_db_check_lib_detected}"],
-        [xpkgcfg], [
-                PKGCFG_NAMES_PRIVATE="$PKGCFG_NAMES_PRIVATE ${found_pkgconfig}"
-                CFLAGS="${fty_common_db_CFLAGS} ${CFLAGS}"
-                LIBS="${fty_common_db_LIBS} ${LIBS}"
-            ],
-        [xyes], [
-                CFLAGS="${fty_common_db_synthetic_cflags} ${CFLAGS}"
-                LDFLAGS="${fty_common_db_synthetic_libs} ${LDFLAGS}"
-                LIBS="${fty_common_db_synthetic_libs} ${LIBS}"
-
-                AC_SUBST([fty_common_db_CFLAGS],[${fty_common_db_synthetic_cflags}])
-                AC_SUBST([fty_common_db_LIBS],[${fty_common_db_synthetic_libs}])
-            ],
-        [xno], [
-            AC_MSG_ERROR([Cannot find pkg-config metadata for libfty_common_db 0.0.0 or higher])
-    ])
-])
-dnl END of enabled attempts to search for libfty_common_db
-
-
-was_fty_common_rest_check_lib_detected=no
-
-search_libfty_common_rest="yes"
-
-AC_ARG_WITH([libfty_common_rest],
-    [
-        AS_HELP_STRING([--with-libfty_common_rest],
-        [yes or no. Optionally specify libfty_common_rest prefix (directory where its include/ and lib/ are located), but that is only used if pkgconfig metadata is not found first])
-    ],
-    [
-        search_libfty_common_rest="yes"
-    ],
-    [
-        search_libfty_common_rest="yes"
-    ])
-AS_CASE([x"${with_libfty_common_rest}"],
-    [xyes], [search_libfty_common_rest="yes"],
-    [xno],  [search_libfty_common_rest="no"])
-
-dnl We do not abort right now, because the maintainer/developer may have
-dnl something particular in mind, e.g. to build just parts of a project.
-AS_IF([test x"${search_libfty_common_rest}" = xno],
-    [AC_MSG_WARN([Required dependency on fty_common_rest was explicitly disabled during configuration by '--with-libfty_common_rest=no'; subsequent full build of fty-asset-mapping-rest may fail])])
-
-AS_IF([test x"${search_libfty_common_rest}" = xyes], [
-    # Archive previously detected and supplied flags
-    PRE_SEARCH_CFLAGS="${CFLAGS}"
-    PRE_SEARCH_LIBS="${LIBS}"
-
-    found_pkgconfig=""
-    PKG_CHECK_MODULES([fty_common_rest], [libfty_common_rest >= 0.0.0],
-    [
-        was_fty_common_rest_check_lib_detected=pkgcfg
-        found_pkgconfig="libfty_common_rest"
-    ],
-    [
-        AC_MSG_NOTICE([Package libfty_common_rest not found; falling back to defined compilability tests])
-
-        fty_common_rest_synthetic_cflags=""
-        fty_common_rest_synthetic_libs="-lfty-common-rest"
-
-        if test -n "${with_libfty_common_rest}" && test x"${with_libfty_common_rest}" != xyes && test x"${with_libfty_common_rest}" != xno; then
-            if test -r "${with_libfty_common_rest}/include/fty_common_rest.h"; then
-                fty_common_rest_synthetic_cflags="-I${with_libfty_common_rest}/include"
-                fty_common_rest_synthetic_libs="-L${with_libfty_common_rest}/lib -lfty-common-rest"
-            else
-            AC_MSG_ERROR([Header file ${with_libfty_common_rest}/include/fty_common_rest.h was not found. Please check libfty_common_rest prefix])
-            fi
-        else
-            AC_CHECK_HEADER([fty_common_rest.h], [],
-            AC_MSG_ERROR([Header file fty_common_rest.h was not found in default search paths])
-                )
-        fi
-
-        AC_CHECK_LIB([fty-common-rest], [fty_common_rest_selftest],
-            [
-                was_fty_common_rest_check_lib_detected=yes
-                PKGCFG_LIBS_PRIVATE="$PKGCFG_LIBS_PRIVATE -lfty-common-rest"
-            ],
-            [AC_MSG_ERROR([cannot link with -lfty-common-rest, install libfty_common_rest])])
-    ])
-
-dnl END of PKG_CHECK_MODULES and/or direct tests for libfty_common_rest
-    AS_CASE(["x${was_fty_common_rest_check_lib_detected}"],
-        [xpkgcfg], [
-                PKGCFG_NAMES_PRIVATE="$PKGCFG_NAMES_PRIVATE ${found_pkgconfig}"
-                CFLAGS="${fty_common_rest_CFLAGS} ${CFLAGS}"
-                LIBS="${fty_common_rest_LIBS} ${LIBS}"
-            ],
-        [xyes], [
-                CFLAGS="${fty_common_rest_synthetic_cflags} ${CFLAGS}"
-                LDFLAGS="${fty_common_rest_synthetic_libs} ${LDFLAGS}"
-                LIBS="${fty_common_rest_synthetic_libs} ${LIBS}"
-
-                AC_SUBST([fty_common_rest_CFLAGS],[${fty_common_rest_synthetic_cflags}])
-                AC_SUBST([fty_common_rest_LIBS],[${fty_common_rest_synthetic_libs}])
-            ],
-        [xno], [
-            AC_MSG_ERROR([Cannot find pkg-config metadata for libfty_common_rest 0.0.0 or higher])
-    ])
-])
-dnl END of enabled attempts to search for libfty_common_rest
-
-
-was_fty_common_socket_check_lib_detected=no
-
-search_libfty_common_socket="yes"
-
-AC_ARG_WITH([libfty_common_socket],
-    [
-        AS_HELP_STRING([--with-libfty_common_socket],
-        [yes or no. Optionally specify libfty_common_socket prefix (directory where its include/ and lib/ are located), but that is only used if pkgconfig metadata is not found first])
-    ],
-    [
-        search_libfty_common_socket="yes"
-    ],
-    [
-        search_libfty_common_socket="yes"
-    ])
-AS_CASE([x"${with_libfty_common_socket}"],
-    [xyes], [search_libfty_common_socket="yes"],
-    [xno],  [search_libfty_common_socket="no"])
-
-dnl We do not abort right now, because the maintainer/developer may have
-dnl something particular in mind, e.g. to build just parts of a project.
-AS_IF([test x"${search_libfty_common_socket}" = xno],
-    [AC_MSG_WARN([Required dependency on fty_common_socket was explicitly disabled during configuration by '--with-libfty_common_socket=no'; subsequent full build of fty-asset-mapping-rest may fail])])
-
-AS_IF([test x"${search_libfty_common_socket}" = xyes], [
-    # Archive previously detected and supplied flags
-    PRE_SEARCH_CFLAGS="${CFLAGS}"
-    PRE_SEARCH_LIBS="${LIBS}"
-
-    found_pkgconfig=""
-    PKG_CHECK_MODULES([fty_common_socket], [libfty_common_socket >= 0.0.0],
-    [
-        was_fty_common_socket_check_lib_detected=pkgcfg
-        found_pkgconfig="libfty_common_socket"
-    ],
-    [
-        AC_MSG_NOTICE([Package libfty_common_socket not found; falling back to defined compilability tests])
-
-        fty_common_socket_synthetic_cflags=""
-        fty_common_socket_synthetic_libs="-lfty-common-socket"
-
-        if test -n "${with_libfty_common_socket}" && test x"${with_libfty_common_socket}" != xyes && test x"${with_libfty_common_socket}" != xno; then
-            if test -r "${with_libfty_common_socket}/include/fty_common_socket.h"; then
-                fty_common_socket_synthetic_cflags="-I${with_libfty_common_socket}/include"
-                fty_common_socket_synthetic_libs="-L${with_libfty_common_socket}/lib -lfty-common-socket"
-            else
-            AC_MSG_ERROR([Header file ${with_libfty_common_socket}/include/fty_common_socket.h was not found. Please check libfty_common_socket prefix])
-            fi
-        else
-            AC_CHECK_HEADER([fty_common_socket.h], [],
-            AC_MSG_ERROR([Header file fty_common_socket.h was not found in default search paths])
-                )
-        fi
-
-        AC_CHECK_LIB([fty-common-socket], [fty_common_socket_selftest],
-            [
-                was_fty_common_socket_check_lib_detected=yes
-                PKGCFG_LIBS_PRIVATE="$PKGCFG_LIBS_PRIVATE -lfty-common-socket"
-            ],
-            [AC_MSG_ERROR([cannot link with -lfty-common-socket, install libfty_common_socket])])
-    ])
-
-dnl END of PKG_CHECK_MODULES and/or direct tests for libfty_common_socket
-    AS_CASE(["x${was_fty_common_socket_check_lib_detected}"],
-        [xpkgcfg], [
-                PKGCFG_NAMES_PRIVATE="$PKGCFG_NAMES_PRIVATE ${found_pkgconfig}"
-                CFLAGS="${fty_common_socket_CFLAGS} ${CFLAGS}"
-                LIBS="${fty_common_socket_LIBS} ${LIBS}"
-            ],
-        [xyes], [
-                CFLAGS="${fty_common_socket_synthetic_cflags} ${CFLAGS}"
-                LDFLAGS="${fty_common_socket_synthetic_libs} ${LDFLAGS}"
-                LIBS="${fty_common_socket_synthetic_libs} ${LIBS}"
-
-                AC_SUBST([fty_common_socket_CFLAGS],[${fty_common_socket_synthetic_cflags}])
-                AC_SUBST([fty_common_socket_LIBS],[${fty_common_socket_synthetic_libs}])
-            ],
-        [xno], [
-            AC_MSG_ERROR([Cannot find pkg-config metadata for libfty_common_socket 0.0.0 or higher])
-    ])
-])
-dnl END of enabled attempts to search for libfty_common_socket
-
-
-was_fty_security_wallet_check_lib_detected=no
-
-search_libfty_security_wallet="yes"
-
-AC_ARG_WITH([libfty_security_wallet],
-    [
-        AS_HELP_STRING([--with-libfty_security_wallet],
-        [yes or no. Optionally specify libfty_security_wallet prefix (directory where its include/ and lib/ are located), but that is only used if pkgconfig metadata is not found first])
-    ],
-    [
-        search_libfty_security_wallet="yes"
-    ],
-    [
-        search_libfty_security_wallet="yes"
-    ])
-AS_CASE([x"${with_libfty_security_wallet}"],
-    [xyes], [search_libfty_security_wallet="yes"],
-    [xno],  [search_libfty_security_wallet="no"])
-
-dnl We do not abort right now, because the maintainer/developer may have
-dnl something particular in mind, e.g. to build just parts of a project.
-AS_IF([test x"${search_libfty_security_wallet}" = xno],
-    [AC_MSG_WARN([Required dependency on fty_security_wallet was explicitly disabled during configuration by '--with-libfty_security_wallet=no'; subsequent full build of fty-asset-mapping-rest may fail])])
-
-AS_IF([test x"${search_libfty_security_wallet}" = xyes], [
-    # Archive previously detected and supplied flags
-    PRE_SEARCH_CFLAGS="${CFLAGS}"
-    PRE_SEARCH_LIBS="${LIBS}"
-
-    found_pkgconfig=""
-    PKG_CHECK_MODULES([fty_security_wallet], [libfty_security_wallet >= 0.0.0],
-    [
-        was_fty_security_wallet_check_lib_detected=pkgcfg
-        found_pkgconfig="libfty_security_wallet"
-    ],
-    [
-        AC_MSG_NOTICE([Package libfty_security_wallet not found; falling back to defined compilability tests])
-
-        fty_security_wallet_synthetic_cflags=""
-        fty_security_wallet_synthetic_libs="-lfty-security-wallet"
-
-        if test -n "${with_libfty_security_wallet}" && test x"${with_libfty_security_wallet}" != xyes && test x"${with_libfty_security_wallet}" != xno; then
-            if test -r "${with_libfty_security_wallet}/include/fty_security_wallet.h"; then
-                fty_security_wallet_synthetic_cflags="-I${with_libfty_security_wallet}/include"
-                fty_security_wallet_synthetic_libs="-L${with_libfty_security_wallet}/lib -lfty-security-wallet"
-            else
-            AC_MSG_ERROR([Header file ${with_libfty_security_wallet}/include/fty_security_wallet.h was not found. Please check libfty_security_wallet prefix])
-            fi
-        else
-            AC_CHECK_HEADER([fty_security_wallet.h], [],
-            AC_MSG_ERROR([Header file fty_security_wallet.h was not found in default search paths])
-                )
-        fi
-
-        AC_CHECK_LIB([fty-security-wallet], [fty_security_wallet_selftest],
-            [
-                was_fty_security_wallet_check_lib_detected=yes
-                PKGCFG_LIBS_PRIVATE="$PKGCFG_LIBS_PRIVATE -lfty-security-wallet"
-            ],
-            [AC_MSG_ERROR([cannot link with -lfty-security-wallet, install libfty_security_wallet])])
-    ])
-
-dnl END of PKG_CHECK_MODULES and/or direct tests for libfty_security_wallet
-    AS_CASE(["x${was_fty_security_wallet_check_lib_detected}"],
-        [xpkgcfg], [
-                PKGCFG_NAMES_PRIVATE="$PKGCFG_NAMES_PRIVATE ${found_pkgconfig}"
-                CFLAGS="${fty_security_wallet_CFLAGS} ${CFLAGS}"
-                LIBS="${fty_security_wallet_LIBS} ${LIBS}"
-            ],
-        [xyes], [
-                CFLAGS="${fty_security_wallet_synthetic_cflags} ${CFLAGS}"
-                LDFLAGS="${fty_security_wallet_synthetic_libs} ${LDFLAGS}"
-                LIBS="${fty_security_wallet_synthetic_libs} ${LIBS}"
-
-                AC_SUBST([fty_security_wallet_CFLAGS],[${fty_security_wallet_synthetic_cflags}])
-                AC_SUBST([fty_security_wallet_LIBS],[${fty_security_wallet_synthetic_libs}])
-            ],
-        [xno], [
-            AC_MSG_ERROR([Cannot find pkg-config metadata for libfty_security_wallet 0.0.0 or higher])
-    ])
-])
-dnl END of enabled attempts to search for libfty_security_wallet
 
 
 CFLAGS="${PREVIOUS_CFLAGS}"

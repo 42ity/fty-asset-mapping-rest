@@ -9,27 +9,20 @@ AM_CXXFLAGS = \
     -std=c++11
 
 AM_CPPFLAGS = \
-    ${cxxtools_CFLAGS} \
-    ${log4cplus_CFLAGS} \
-    ${fty_common_logging_CFLAGS} \
     ${libsodium_CFLAGS} \
     ${libzmq_CFLAGS} \
     ${czmq_CFLAGS} \
-    ${malamute_CFLAGS} \
-    ${openssl_CFLAGS} \
+    ${cxxtools_CFLAGS} \
     ${fty_common_CFLAGS} \
+    ${fty_common_logging_CFLAGS} \
     ${fty_common_mlm_CFLAGS} \
-    ${tntnet_CFLAGS} \
-    ${libsasl2_CFLAGS} \
-    ${tntdb_CFLAGS} \
-    ${fty_common_db_CFLAGS} \
     ${fty_common_rest_CFLAGS} \
-    ${fty_common_socket_CFLAGS} \
     ${fty_security_wallet_CFLAGS} \
+    ${tntdb_CFLAGS} \
     -D__STDC_FORMAT_MACROS \
     -I$(srcdir)/include
 
-project_libs = ${cxxtools_LIBS} ${log4cplus_LIBS} ${fty_common_logging_LIBS} ${libsodium_LIBS} ${libzmq_LIBS} ${czmq_LIBS} ${malamute_LIBS} ${openssl_LIBS} ${fty_common_LIBS} ${fty_common_mlm_LIBS} ${tntnet_LIBS} ${libsasl2_LIBS} ${tntdb_LIBS} ${fty_common_db_LIBS} ${fty_common_rest_LIBS} ${fty_common_socket_LIBS} ${fty_security_wallet_LIBS}
+project_libs = ${libsodium_LIBS} ${libzmq_LIBS} ${czmq_LIBS} ${cxxtools_LIBS} ${fty_common_LIBS} ${fty_common_logging_LIBS} ${fty_common_mlm_LIBS} ${fty_common_rest_LIBS} ${fty_security_wallet_LIBS} ${tntdb_LIBS}
 
 SUBDIRS = doc
 SUBDIRS += include
@@ -50,23 +43,16 @@ DISTCLEANFILES =
 
 if ENABLE_DIST_CMAKEFILES
 EXTRA_DIST += \
-    Findcxxtools.cmake \
-    Findlog4cplus.cmake \
-    Findfty_common_logging.cmake \
     Findlibsodium.cmake \
     Findlibzmq.cmake \
     Findczmq.cmake \
-    Findmalamute.cmake \
-    Findopenssl.cmake \
+    Findcxxtools.cmake \
     Findfty_common.cmake \
+    Findfty_common_logging.cmake \
     Findfty_common_mlm.cmake \
-    Findtntnet.cmake \
-    Findlibsasl2.cmake \
-    Findtntdb.cmake \
-    Findfty_common_db.cmake \
     Findfty_common_rest.cmake \
-    Findfty_common_socket.cmake \
     Findfty_security_wallet.cmake \
+    Findtntdb.cmake \
     builds/cmake/Modules/ClangFormat.cmake \
     builds/cmake/clang-format-check.sh.in \
     builds/cmake/Config.cmake.in \
