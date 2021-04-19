@@ -28,6 +28,15 @@
 */
 
 #include "fty_asset_mapping_rest_classes.h"
+// #include <czmq.h>
+// #include <cxxtools/allocator.h>
+// #include <fty_common.h>
+// #include <fty_log.h>
+// #include <fty_common_mlm.h>
+// #include <fty_common_rest.h>
+// #include <fty_security_wallet.h>
+// #include <tntdb.h>
+// #include "helpers_asset_mapping_rest.h"
 
 typedef struct {
     const char *testname;           // test name, can be called from command line this way

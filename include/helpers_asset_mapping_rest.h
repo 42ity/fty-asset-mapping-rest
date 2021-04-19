@@ -1,5 +1,5 @@
 /*  =========================================================================
-    rest_communications_post - class description
+    restapi_helpers - Helpers
 
     Copyright (C) 2018 - 2020 Eaton
 
@@ -18,3 +18,35 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
     =========================================================================
 */
+
+#pragma once 
+
+#include "cam_accessor.h"
+
+namespace restapi
+{
+    static constexpr char END_POINT[] = "ipc://@/malamute";
+    static constexpr char CLIENT_ID[] = "fty-asset-mapping-rest";
+
+    std::string createId(const cam::CredentialAssetMapping & mapping);
+    std::vector<std::string> splitString(const std::string & str, char separator);
+
+    //URL_PREFIX = /api/v1/admin/communication-data/
+    static constexpr size_t URL_PREFIX_SIZE = 4;
+
+    class Path
+    {
+    public:
+        Path(const std::string & pathStr);
+
+        const std::string & getPathStr() const;
+        const std::string & getItem(size_t index) const;
+        size_t getNumberOfItem() const;
+
+    private:
+        std::string m_pathStr;
+        std::vector<std::string> m_items;
+    };
+   
+} //namepace restapi
+
