@@ -59,8 +59,6 @@ etn_test_target(${PROJECT_NAME}
 
 install(FILES ${PROJECT_SOURCE_DIR}/resources/41_asset-mapping-rest.xml DESTINATION "${CMAKE_INSTALL_FULL_SYSCONFDIR}/tntnet/bios.d")
 
-#one more install I need to add, check install.xml
-
 ########################################################################################################################
 
 # etn_configure_file(
