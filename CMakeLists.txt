@@ -18,6 +18,7 @@ etn_target(shared ${PROJECT_NAME}
     SOURCES
         src/*.cc
     USES
+        fty-cmake-rest
         czmq
         cxxtools
         fty_common
@@ -26,22 +27,23 @@ etn_target(shared ${PROJECT_NAME}
         fty_common_rest
         fty_security_wallet
         tntdb
+        tntnet
 )
 
 ########################################################################################################################
 
-# # Get the ecpp
-# file(GLOB ECPP_FILES
-#   ecpp/*.ecpp
-# )
+# Get the ecpp
+file(GLOB ECPP_FILES
+  ecpp/*.ecpp
+)
 
-# # Transform ecpp files
-# fty_ecppbuilder(
-#   TARGET ${PROJECT_NAME}
-#   WORKDIR src
-#   ECPP
-#     ${ECPP_FILES}
-# )
+# Transform ecpp files
+fty_ecppbuilder(
+  TARGET ${PROJECT_NAME}
+  WORKDIR src
+  ECPP
+    ${ECPP_FILES}
+)
 
 ########################################################################################################################
 
@@ -55,6 +57,16 @@ etn_test_target(${PROJECT_NAME}
 
 ########################################################################################################################
 
-install(FILES 41_asset-mapping-rest.xml DESTINATION "/etc/tntnet/bios.d")
+install(FILES ${PROJECT_SOURCE_DIR}/resources/41_asset-mapping-rest.xml DESTINATION "${CMAKE_INSTALL_FULL_SYSCONFDIR}/tntnet/bios.d")
+
+#one more install I need to add, check install.xml
+
+########################################################################################################################
+
+# etn_configure_file(
+#     conf/XX_project.xml.in
+#     TARGET      ${PROJECT_NAME}
+#     DESTINATION /etc/tntnet/bios.d
+# )
 
 ########################################################################################################################

@@ -32,10 +32,10 @@
 #include <dirent.h>
 #include <unistd.h>
 
-#include <src/helpers_asset_mapping_rest.h>
+#include <helpers_asset_mapping_rest.h>
 
-#include "cam_accessor.h"
-#include "cam_exception.h"
+// #include "cam_accessor.h"
+// #include "cam_exception.h"
 
 #include <cxxtools/jsonserializer.h>
 
