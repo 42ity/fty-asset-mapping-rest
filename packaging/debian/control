@@ -44,9 +44,9 @@ Build-Depends: debhelper (>= 9),
     asciidoc-base | asciidoc, xmlto,
     dh-autoreconf
 
-Package: fty-asset-mapping-rest
+Package: libfty-asset-mapping-rest1
 Architecture: any
-Section: net
-Priority: optional
-Depends: ${misc:Depends}, ${shlibs:Depends}
-Description: grouping of end-user solution with fty-asset-mapping-rest
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: fty-asset-mapping-rest shared library
+ This package contains shared library for fty-asset-mapping-rest:
+ asset mapping rest api

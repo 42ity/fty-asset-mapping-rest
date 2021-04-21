@@ -28,6 +28,7 @@ etn_target(shared ${PROJECT_NAME}
         fty_security_wallet
         tntdb
         tntnet
+    TARGET_DESTINATION /usr/lib/bios
 )
 
 ########################################################################################################################
@@ -49,7 +50,6 @@ fty_ecppbuilder(
 
 etn_test_target(${PROJECT_NAME}
     SOURCES
-        # fty_common_rest_utils_web.cc
         main.cpp
     SUBDIR
         test
