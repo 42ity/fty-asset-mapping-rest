@@ -19,7 +19,7 @@
     =========================================================================
 */
 
-#include "fty_asset_mapping_rest_classes.h"
+#include "include/helpers_asset_mapping_rest.h"
 
 namespace restapi
 {

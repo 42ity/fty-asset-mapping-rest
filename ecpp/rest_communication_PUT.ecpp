@@ -20,8 +20,8 @@
 /*!
  * \file rest_documents_POST.ecpp
  * \author Clement Perrette <ClementPerrette@eaton.com>
- * \brief Implementation of rest handler for asset mapping
- *        DELETE a mapping
+ * \brief Implementation of rest handler for security wallet
+ *        UPDATE a document
  */
  #><%pre>
 #include <algorithm>
@@ -32,11 +32,10 @@
 #include <dirent.h>
 #include <unistd.h>
 
-#include <src/helpers_asset_mapping_rest.h>
+#include <helpers_asset_mapping_rest.h>
 
-#include "cam_accessor.h"
-#include "cam_exception.h"
-
+// #include "cam_accessor.h"
+// #include "cam_exception.h"
 #include "fty_common_rest.h"
 
 </%pre>
@@ -50,7 +49,7 @@ UserInfo user;
 
   //check if we can execute
   static const std::map <BiosProfile, std::string> PERMISSIONS = {
-          {BiosProfile::Admin, "D"}
+          {BiosProfile::Admin, "U"}
   };
 
   CHECK_USER_PERMISSIONS_OR_DIE(PERMISSIONS);
@@ -64,11 +63,17 @@ UserInfo user;
     //extract data from the path: <URL_PREFIX>/communications/<id_item>
     const std::string & idItem = path.getItem(URL_PREFIX_SIZE + 1);
 
-    //extract the id
-    std::vector<std::string> idArray = splitString(idItem, '+');
+    //extract the data
+    CredentialAssetMapping mapping;
+    request.getBody() >>= mapping;
+
+    if(idItem != createId(mapping))
+    {
+      throw std::runtime_error("Mismatch id");
+    }
 
     //try to save it
-    accessor.removeMapping(idArray.at(0), idArray.at(1), idArray.at(2) );
+    accessor.updateMapping(mapping);
 
     reply.out() << "{}";
   }
@@ -82,4 +87,5 @@ UserInfo user;
     std::string msg = TRANSLATE_ME ("Error while updating a communication item: %s", e.what ());
     http_die ("internal-error", msg.c_str ());
   }
+
 </%cpp>
