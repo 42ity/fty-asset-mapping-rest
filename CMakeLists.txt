@@ -29,6 +29,7 @@ etn_target(shared ${PROJECT_NAME}
     USES
         fty-cmake-rest
         fty-utils
+        fty-pack
         czmq
         cxxtools
         fty_common
