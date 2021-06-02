@@ -13,37 +13,27 @@ find_package(fty-cmake PATHS ${CMAKE_BINARY_DIR}/fty-cmake)
 ########################################################################################################################
 
 etn_target(shared ${PROJECT_NAME}
-    INCLUDE_DIRS
-        include
     SOURCES
-        src/*.cc
+        src/helpers_asset_mapping_rest.cc
+        src/helpers_asset_mapping_rest.h
+        src/delete.h
+        src/delete.cpp
+        src/get.h
+        src/get.cpp
+        src/put.h
+        src/put.cpp
+        src/listget.h
+        src/listget.cpp
+        src/listpost.h
+        src/listpost.cpp
     USES
         fty-cmake-rest
         czmq
         cxxtools
         fty_common
-        fty_common_logging
-        fty_common_mlm
-        fty_common_rest
         fty_security_wallet
-        tntdb
         tntnet
     TARGET_DESTINATION /usr/lib/bios
-)
-
-########################################################################################################################
-
-# Get the ecpp
-file(GLOB ECPP_FILES
-  ecpp/*.ecpp
-)
-
-# Transform ecpp files
-fty_ecppbuilder(
-  TARGET ${PROJECT_NAME}
-  WORKDIR src
-  ECPP
-    ${ECPP_FILES}
 )
 
 ########################################################################################################################
