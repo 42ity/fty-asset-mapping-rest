@@ -28,6 +28,7 @@ etn_target(shared ${PROJECT_NAME}
         src/listpost.cpp
     USES
         fty-cmake-rest
+        fty-utils
         czmq
         cxxtools
         fty_common
