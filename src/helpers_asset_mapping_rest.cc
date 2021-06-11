@@ -20,7 +20,7 @@
 */
 
 #include "helpers_asset_mapping_rest.h"
-#include <fty/split.h>
+#include <fty/string-utils.h>
 
 namespace restapi {
 

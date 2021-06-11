@@ -3,7 +3,7 @@
 #include <cam_accessor.h>
 #include <cxxtools/jsonserializer.h>
 #include <fty/rest/component.h>
-#include <fty/split.h>
+#include <fty/string-utils.h>
 
 namespace fty {
 
