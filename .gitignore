@@ -1,5 +1,2 @@
 build
 CMakeLists.txt.*
-
-# ecpp generated cpp files
-ecpp/*.cpp

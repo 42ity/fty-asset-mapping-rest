@@ -19,53 +19,34 @@
     =========================================================================
 */
 
-#include "include/helpers_asset_mapping_rest.h"
+#include "helpers_asset_mapping_rest.h"
+#include <fty/string-utils.h>
 
-namespace restapi
+namespace restapi {
+
+Path::Path(const std::string& pathStr)
+    : m_pathStr(pathStr)
 {
-    Path::Path(const std::string & pathStr)
-        : m_pathStr(pathStr)
-    {
-        m_items = splitString(m_pathStr.substr (0, m_pathStr.find ("?")), '/');
-    }
-
-    const std::string & Path::getPathStr() const
-    {
-        return m_pathStr;
-    }
-    const std::string & Path::getItem(size_t index) const
-    {
-        return m_items.at(index);
-    }
-
-    size_t Path::getNumberOfItem() const
-    {
-        return m_items.size();
-    }
-
-    std::string createId(const cam::CredentialAssetMapping & mapping)
-    {
-        return mapping.m_assetId+"+"+mapping.m_serviceId+"+"+mapping.m_protocol;
-    }
-
-    std::vector<std::string> splitString(const std::string & str, char separator)
-    {
-        std::stringstream stream;
-        stream << str;
-
-        std::vector<std::string> items;
-
-        std::string item;
-
-        while(std::getline(stream, item, separator))
-        {
-            if(!item.empty())
-            {
-                items.push_back(item);
-            }
-        }
-
-        return items;
-    }
+    m_items = fty::split(m_pathStr.substr(0, m_pathStr.find("?")), "/");
 }
 
+const std::string& Path::getPathStr() const
+{
+    return m_pathStr;
+}
+const std::string& Path::getItem(size_t index) const
+{
+    return m_items.at(index);
+}
+
+size_t Path::getNumberOfItem() const
+{
+    return m_items.size();
+}
+
+std::string createId(const cam::CredentialAssetMapping& mapping)
+{
+    return mapping.m_assetId + "+" + mapping.m_serviceId + "+" + mapping.m_protocol;
+}
+
+} // namespace restapi
