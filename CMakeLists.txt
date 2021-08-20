@@ -12,7 +12,9 @@ project(fty-asset-mapping-rest
 find_package(fty-cmake PATHS ${CMAKE_BINARY_DIR}/fty-cmake)
 ########################################################################################################################
 
-etn_target(shared ${PROJECT_NAME}
+set(PROJECT_NAME_UNDERSCORE fty_asset_mapping_rest)
+
+etn_target(shared ${PROJECT_NAME_UNDERSCORE}
     SOURCES
         src/helpers_asset_mapping_rest.cc
         src/helpers_asset_mapping_rest.h
@@ -40,7 +42,7 @@ etn_target(shared ${PROJECT_NAME}
 
 ########################################################################################################################
 
-etn_test_target(${PROJECT_NAME}
+etn_test_target(${PROJECT_NAME_UNDERSCORE}
     SOURCES
         main.cpp
     SUBDIR
