@@ -5,7 +5,7 @@ cmake_policy(VERSION 3.13)
 
 project(fty-asset-mapping-rest
     VERSION 1.0.0
-    DESCRIPTION "Asset mapping REST API"
+    DESCRIPTION "Credentials Asset Mapping REST API"
 )
 
 ########################################################################################################################
@@ -29,15 +29,16 @@ etn_target(shared ${PROJECT_NAME_UNDERSCORE}
         src/listpost.h
         src/listpost.cpp
     USES
+        czmq
+        cxxtools
+        tntnet
         fty-cmake-rest
         fty-utils
         fty-pack
-        czmq
-        cxxtools
         fty_common
         fty_security_wallet
-        tntnet
-    TARGET_DESTINATION /usr/lib/bios
+    TARGET_DESTINATION
+        ${CMAKE_INSTALL_PREFIX}/lib/bios
 )
 
 ########################################################################################################################
@@ -52,13 +53,5 @@ etn_test_target(${PROJECT_NAME_UNDERSCORE}
 ########################################################################################################################
 
 install(FILES ${PROJECT_SOURCE_DIR}/resources/41_asset-mapping-rest.xml DESTINATION "${CMAKE_INSTALL_FULL_SYSCONFDIR}/tntnet/bios.d")
-
-########################################################################################################################
-
-# etn_configure_file(
-#     conf/XX_project.xml.in
-#     TARGET      ${PROJECT_NAME}
-#     DESTINATION /etc/tntnet/bios.d
-# )
 
 ########################################################################################################################

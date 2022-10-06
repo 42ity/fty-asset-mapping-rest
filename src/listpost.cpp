@@ -1,7 +1,7 @@
 #include "listpost.h"
 #include "helpers_asset_mapping_rest.h"
 #include <cam_accessor.h>
-#include <cxxtools/jsonserializer.h>
+#include <fty_common_json.h>
 #include <fty/rest/component.h>
 
 namespace fty {
@@ -33,10 +33,7 @@ unsigned ListPost::run()
         cxxtools::SerializationInfo si;
         si.addMember("id") <<= newId;
 
-        std::stringstream        output;
-        cxxtools::JsonSerializer ser(output);
-        ser.serialize(si);
-        m_reply << output.str();
+        m_reply << JSON::writeToString(si);
     } catch (const cam::CamMappingAlreadyExistsException& /*e*/) {
         throw rest::errors::BadRequestDocument("Communication item already exist"_tr);
     } catch (const std::exception& e) {

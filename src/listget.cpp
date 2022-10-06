@@ -1,7 +1,7 @@
 #include "listget.h"
 #include "helpers_asset_mapping_rest.h"
 #include <cam_accessor.h>
-#include <cxxtools/jsonserializer.h>
+#include <fty_common_json.h>
 #include <fty/rest/component.h>
 
 namespace fty {
@@ -27,6 +27,7 @@ unsigned ListGet::run()
         auto          mappings = accessor.getAllMappings();
 
         cxxtools::SerializationInfo rootSi;
+        rootSi.setCategory(cxxtools::SerializationInfo::Array);
 
         // filter the data
         for (const cam::CredentialAssetMapping& mapping : mappings) {
@@ -65,13 +66,8 @@ unsigned ListGet::run()
             rootSi.addMember("") <<= si;
         }
 
-        rootSi.setCategory(cxxtools::SerializationInfo::Array);
-
         // Send reply.
-        std::stringstream        output;
-        cxxtools::JsonSerializer ser(output);
-        ser.serialize(rootSi);
-        m_reply << output.str();
+        m_reply << JSON::writeToString(rootSi);
     } catch (const std::exception& e) {
         throw rest::errors::Internal("Error while getting list of communication: {}"_tr.format(e.what()));
     }
