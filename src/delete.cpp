@@ -24,7 +24,7 @@ unsigned Delete::run()
         // extract the id
         std::vector<std::string> idArray = fty::split(idItem, "+");
 
-        // try to save it
+        // try to delete it
         accessor.removeMapping(idArray.at(0), idArray.at(1), idArray.at(2));
 
         m_reply << "{}";

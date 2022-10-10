@@ -1,7 +1,6 @@
 #include "put.h"
 #include "helpers_asset_mapping_rest.h"
 #include <cam_accessor.h>
-#include <cxxtools/jsonserializer.h>
 #include <fty/rest/component.h>
 
 namespace fty {
