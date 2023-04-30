@@ -29,7 +29,6 @@ etn_target(shared ${PROJECT_NAME_UNDERSCORE}
         src/listpost.h
         src/listpost.cpp
     USES
-        czmq
         cxxtools
         tntnet
         fty-cmake-rest
@@ -46,6 +45,8 @@ etn_target(shared ${PROJECT_NAME_UNDERSCORE}
 etn_test_target(${PROJECT_NAME_UNDERSCORE}
     SOURCES
         main.cpp
+        helpers_asset_mapping_rest.cpp
+        src/*.cpp
     SUBDIR
         test
 )
