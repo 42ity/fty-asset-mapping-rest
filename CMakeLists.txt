@@ -46,7 +46,7 @@ etn_test_target(${PROJECT_NAME_UNDERSCORE}
     SOURCES
         main.cpp
         helpers_asset_mapping_rest.cpp
-        src/*.cpp
+        get.cpp
     SUBDIR
         test
 )

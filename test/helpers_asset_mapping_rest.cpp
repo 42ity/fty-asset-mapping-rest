@@ -1,5 +1,4 @@
 #include <catch2/catch.hpp>
-#include <fty/string-utils.h>
 #include "src/helpers_asset_mapping_rest.h"
 
 TEST_CASE("helpers_asset_mapping_rest - path")
@@ -65,5 +64,5 @@ TEST_CASE("helpers_asset_mapping_rest - createId")
 
     const cam::CredentialAssetMapping mapping; // empty
     CHECK_NOTHROW(createId(mapping));
-    CHECK(fty::split(createId(mapping), "+").size() == 0); // "++"
+    CHECK(createId(mapping) == "++");
 }
