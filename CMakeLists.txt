@@ -47,6 +47,7 @@ etn_test_target(${PROJECT_NAME_UNDERSCORE}
         main.cpp
         helpers_asset_mapping_rest.cpp
         get.cpp
+        listget.cpp
     SUBDIR
         test
 )
