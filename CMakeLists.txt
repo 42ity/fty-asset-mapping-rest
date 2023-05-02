@@ -16,7 +16,7 @@ set(PROJECT_NAME_UNDERSCORE fty_asset_mapping_rest)
 
 etn_target(shared ${PROJECT_NAME_UNDERSCORE}
     SOURCES
-        src/helpers_asset_mapping_rest.cc
+        src/helpers_asset_mapping_rest.cpp
         src/helpers_asset_mapping_rest.h
         src/delete.h
         src/delete.cpp
