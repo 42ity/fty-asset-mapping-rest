@@ -1,17 +1,17 @@
 #include <catch2/catch.hpp>
-#include "src/get.h"
+#include "src/delete.h"
 #include "requestContext.h"
 
 using Catch::Matchers::Contains;
 
-TEST_CASE("get")
+TEST_CASE("delete")
 {
-    UT::RequestContext rc("GET", "/api/v1/admin/communication-data/communications/x+y+z");
+    UT::RequestContext rc("DELETE", "/api/v1/admin/communication-data/communications/assetId+service+protocol");
 
     SECTION("Dashboard")
     {
         rc.setUserDashboard();
-        fty::Get runner(rc.request(), rc.reply(), rc.params());
+        fty::Delete runner(rc.request(), rc.reply(), rc.params());
 
         const std::string e0{"Permission not defined"};
         CHECK_THROWS_WITH(runner.run(), Contains(e0));
@@ -20,7 +20,7 @@ TEST_CASE("get")
     SECTION("Admin")
     {
         rc.setUserAdmin();
-        fty::Get runner(rc.request(), rc.reply(), rc.params());
+        fty::Delete runner(rc.request(), rc.reply(), rc.params());
 
         const std::string e0{"item does not exist"};
         const std::string e1{"Malamute error"}; // pass UT on Jenkins

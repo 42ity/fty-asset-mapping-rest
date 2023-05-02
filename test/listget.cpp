@@ -1,7 +1,6 @@
 #include <catch2/catch.hpp>
 #include "src/listget.h"
 #include "requestContext.h"
-#include <fty_common_json.h>
 
 using Catch::Matchers::Contains;
 

@@ -48,6 +48,9 @@ etn_test_target(${PROJECT_NAME_UNDERSCORE}
         helpers_asset_mapping_rest.cpp
         get.cpp
         listget.cpp
+        listpost.cpp
+        put.cpp
+        delete.cpp
     SUBDIR
         test
 )
