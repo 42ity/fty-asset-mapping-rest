@@ -20,7 +20,7 @@
 Source:         fty-asset-mapping-rest
 Section:        net
 Priority:       optional
-Maintainer:     fty-asset-mapping-rest Developers <eatonipcopensource@eaton.com>
+Maintainer:     fty-asset-mapping-rest Developers <opensource@eaton.com>
 Standards-Version: 4.0.1.0
 Build-Depends: debhelper (>= 9),
     cmake (>=3.0),
