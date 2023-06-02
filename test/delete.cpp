@@ -1,6 +1,4 @@
 /*  =========================================================================
-    restapi_helpers - Helpers
-
     Copyright (C) 2018 - 2020 Eaton
 
     This program is free software; you can redistribute it and/or modify
@@ -19,34 +17,32 @@
     =========================================================================
 */
 
-#include "helpers_asset_mapping_rest.h"
-#include <fty/string-utils.h>
+#include <catch2/catch.hpp>
+#include "src/delete.h"
+#include "requestContext.h"
 
-namespace restapi {
+using Catch::Matchers::Contains;
 
-Path::Path(const std::string& pathStr)
-    : m_pathStr(pathStr)
+TEST_CASE("delete")
 {
-    m_items = fty::split(m_pathStr.substr(0, m_pathStr.find("?")), "/");
-}
+    UT::RequestContext rc("DELETE", "/api/v1/admin/communication-data/communications/assetId+service+protocol");
 
-const std::string& Path::getPathStr() const
-{
-    return m_pathStr;
-}
-const std::string& Path::getItem(size_t index) const
-{
-    return m_items.at(index);
-}
+    SECTION("Dashboard")
+    {
+        rc.setUserDashboard();
+        fty::Delete runner(rc.request(), rc.reply(), rc.params());
 
-size_t Path::getNumberOfItem() const
-{
-    return m_items.size();
-}
+        const std::string e0{"Permission not defined"};
+        CHECK_THROWS_WITH(runner.run(), Contains(e0));
+    }
 
-std::string createId(const cam::CredentialAssetMapping& mapping)
-{
-    return mapping.m_assetId + "+" + mapping.m_serviceId + "+" + mapping.m_protocol;
-}
+    SECTION("Admin")
+    {
+        rc.setUserAdmin();
+        fty::Delete runner(rc.request(), rc.reply(), rc.params());
 
-} // namespace restapi
+        const std::string e0{"item does not exist"};
+        const std::string e1{"Malamute error"}; // pass UT on Jenkins
+        CHECK_THROWS_WITH(runner.run(), Contains(e0) || Contains(e1));
+    }
+}

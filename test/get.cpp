@@ -17,26 +17,32 @@
     =========================================================================
 */
 
-#pragma once
+#include <catch2/catch.hpp>
+#include "src/get.h"
+#include "requestContext.h"
 
-#include <fty/rest/runner.h>
+using Catch::Matchers::Contains;
 
-namespace fty {
-
-class Put : public rest::Runner
+TEST_CASE("get")
 {
-public:
-    INIT_REST("rest_communication_PUT");
+    UT::RequestContext rc("GET", "/api/v1/admin/communication-data/communications/x+y+z");
 
-public:
-    unsigned run() override;
+    SECTION("Dashboard")
+    {
+        rc.setUserDashboard();
+        fty::Get runner(rc.request(), rc.reply(), rc.params());
 
-private:
-    // clang-format off
-    Permissions m_permissions = {
-        { rest::User::Profile::Admin, rest::Access::Update }
-    };
-    // clang-format on
-};
+        const std::string e0{"Permission not defined"};
+        CHECK_THROWS_WITH(runner.run(), Contains(e0));
+    }
 
-} // namespace fty
+    SECTION("Admin")
+    {
+        rc.setUserAdmin();
+        fty::Get runner(rc.request(), rc.reply(), rc.params());
+
+        const std::string e0{"item does not exist"};
+        const std::string e1{"Malamute error"}; // pass UT on Jenkins
+        CHECK_THROWS_WITH(runner.run(), Contains(e0) || Contains(e1));
+    }
+}

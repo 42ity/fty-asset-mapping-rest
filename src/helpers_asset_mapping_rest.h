@@ -1,6 +1,4 @@
 /*  =========================================================================
-    restapi_helpers - Helpers
-
     Copyright (C) 2018 - 2020 Eaton
 
     This program is free software; you can redistribute it and/or modify
@@ -19,7 +17,7 @@
     =========================================================================
 */
 
-#pragma once 
+#pragma once
 
 #include "cam_accessor.h"
 
@@ -46,5 +44,5 @@ namespace restapi
         std::string m_pathStr;
         std::vector<std::string> m_items;
     };
-   
+
 } //namepace restapi

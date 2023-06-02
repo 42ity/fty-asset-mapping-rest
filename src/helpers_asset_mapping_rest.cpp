@@ -17,26 +17,34 @@
     =========================================================================
 */
 
-#pragma once
+#include "helpers_asset_mapping_rest.h"
+#include <fty/string-utils.h>
 
-#include <fty/rest/runner.h>
+namespace restapi {
 
-namespace fty {
-
-class Put : public rest::Runner
+Path::Path(const std::string& pathStr)
+    : m_pathStr(pathStr)
 {
-public:
-    INIT_REST("rest_communication_PUT");
+    m_items = fty::split(m_pathStr.substr(0, m_pathStr.find("?")), "/");
+}
 
-public:
-    unsigned run() override;
+const std::string& Path::getPathStr() const
+{
+    return m_pathStr;
+}
+const std::string& Path::getItem(size_t index) const
+{
+    return m_items.at(index);
+}
 
-private:
-    // clang-format off
-    Permissions m_permissions = {
-        { rest::User::Profile::Admin, rest::Access::Update }
-    };
-    // clang-format on
-};
+size_t Path::getNumberOfItem() const
+{
+    return m_items.size();
+}
 
-} // namespace fty
+std::string createId(const cam::CredentialAssetMapping& mapping)
+{
+    return mapping.m_assetId + "+" + mapping.m_serviceId + "+" + mapping.m_protocol;
+}
+
+} // namespace restapi
