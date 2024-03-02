@@ -19,10 +19,12 @@
 
 #pragma once
 
-#include <fty_common_rest_helpers.h> //UserInfo
+#include <cxxtools/log.h> // tntnet13/cxxtools10 : fix missed cxxtools::LogConfiguration ref.
 #include <tnt/tntnet.h>
 #include <tnt/httprequest.h>
 #include <tnt/httpreply.h>
+
+#include <fty_common_rest_helpers.h> //UserInfo
 
 namespace UT {
 
