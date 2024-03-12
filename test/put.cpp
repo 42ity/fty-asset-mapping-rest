@@ -53,7 +53,7 @@ TEST_CASE("put")
         rc.setUserAdmin();
         fty::Put runner(rc.request(), rc.reply(), rc.params());
 
-        const std::string e0{"Missing info"};
+        const std::string e0{"Error while updating a communication item"}; // cam_asset_FAKE
         const std::string e1{"Malamute error"}; // pass UT on Jenkins
         CHECK_THROWS_WITH(runner.run(), Contains(e0) || Contains(e1));
     }

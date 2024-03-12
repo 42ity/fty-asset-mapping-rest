@@ -41,7 +41,7 @@ public:
 
         m_request->setMethod(method.c_str());
         m_request->setPathInfo(uri);
-        m_request->getRequestScope().put<UserInfo, tnt::NullDestroyPolicy>("UserInfo user", &m_userInfo);
+        m_request->getRequestScope().put<UserInfo, tnt::NullDestroyPolicy>("UserInfo%user", &m_userInfo);
     };
 
     ~RequestContext()
