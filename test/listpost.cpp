@@ -53,7 +53,7 @@ TEST_CASE("listpost")
         rc.setUserAdmin();
         fty::ListPost runner(rc.request(), rc.reply(), rc.params());
 
-        const std::string e0{"Missing info"};
+        const std::string e0{"Error while creating a communication item"}; // cam_asset_FAKE
         const std::string e1{"Malamute error"}; // pass UT on Jenkins
         CHECK_THROWS_WITH(runner.run(), Contains(e0) || Contains(e1));
     }

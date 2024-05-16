@@ -19,10 +19,12 @@
 
 #pragma once
 
-#include <fty_common_rest_helpers.h> //UserInfo
+#include <cxxtools/log.h> // tntnet13/cxxtools10 : fix missed cxxtools::LogConfiguration ref.
 #include <tnt/tntnet.h>
 #include <tnt/httprequest.h>
 #include <tnt/httpreply.h>
+
+#include <fty_common_rest_helpers.h> //UserInfo
 
 namespace UT {
 
@@ -39,7 +41,7 @@ public:
 
         m_request->setMethod(method.c_str());
         m_request->setPathInfo(uri);
-        m_request->getRequestScope().put<UserInfo, tnt::NullDestroyPolicy>("UserInfo user", &m_userInfo);
+        m_request->getRequestScope().put<UserInfo, tnt::NullDestroyPolicy>("UserInfo%user", &m_userInfo);
     };
 
     ~RequestContext()
