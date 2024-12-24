@@ -37,8 +37,10 @@ etn_target(shared ${PROJECT_NAME_UNDERSCORE}
         fty_common
         fty_security_wallet
     TARGET_DESTINATION
-        ${CMAKE_INSTALL_PREFIX}/lib/bios
+        ${CMAKE_INSTALL_LIBDIR}
 )
+
+set_target_properties(${PROJECT_NAME_UNDERSCORE} PROPERTIES SOVERSION ${PROJECT_VERSION_MAJOR})
 
 ########################################################################################################################
 
@@ -57,6 +59,9 @@ etn_test_target(${PROJECT_NAME_UNDERSCORE}
 
 ########################################################################################################################
 
-install(FILES ${PROJECT_SOURCE_DIR}/resources/41_asset-mapping-rest.xml DESTINATION "${CMAKE_INSTALL_FULL_SYSCONFDIR}/tntnet/bios.d")
+# mapping file -> etc/tntnet
+install(FILES ${PROJECT_SOURCE_DIR}/resources/41_asset-mapping-rest.xml
+    DESTINATION "${CMAKE_INSTALL_FULL_SYSCONFDIR}/tntnet/bios.d"
+)
 
 ########################################################################################################################
